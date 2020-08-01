@@ -1,0 +1,176 @@
+﻿@model IEnumerable<WebClass.ViewModel.LearningVM>
+@{
+    ViewBag.Title = "我的個人資料";
+}
+
+<link href="~/Scripts/Club/css/simple-line-icons.css" rel="stylesheet" />
+
+<style>
+
+    #menu01 {
+        position: fixed;
+        left: 0.5%;
+        top: 30%;
+        height: 30%;
+        width: 8%;
+        margin-top: -5%;
+        background: rgba(0,150,0,0.3);
+        border-top-right-radius: 10%;
+        border-bottom-right-radius: 10%;
+    }
+
+        #menu01 img {
+            height: 40%;
+            width: 60%;
+            border: 5px solid grey;
+            margin-left: 20%;
+            margin-top: 10%;
+        }
+
+        #menu01 button {
+            width: 98%;
+        }
+
+    .noborder-button {
+        border: 0;
+    }
+
+    .border-button {
+        border: 2px solid cornflowerblue;
+    }
+</style>
+
+<head>
+
+
+</head>
+
+<body style="background-image: url('../../images/classroom.jpg');background-position:center;background-repeat:no-repeat;background-size:cover">
+    @*==========以下邊條==========*@
+    @*<div id="menu01" style="background-color:white">
+            <div style="margin:8%">
+                <img class="img-profile rounded-circle " src="@Url.Action("GetPicture","User", new { id = ViewBag.UserID })">
+            </div>
+
+            <div class="text-dark ">
+                <ul>
+                    <li>
+                        <button class="text-dark bg-transparent btn-flash noborder-button" type="button" data-toggle="collapse" data-target="#collapseOne">個人資料</button>
+                    <li>
+                        <button class="text-dark bg-transparent btn-flash noborder-button" type="button" data-toggle="collapse" data-target="#collapseThree">我的課程</button>
+                </ul>
+            </div>
+        </div>*@
+    @*==========以上邊條==========*@
+
+    @*==========以下主要顯示區==========*@
+    <div class="container" style="margin:5%">
+        <div class="row badge-info" style="background-color:transparent">
+            @*會員導覽*@
+            <div class="col-lg-2" style="margin-bottom:10%">
+                <h3 class="my-4" style="margin-left:20px">會員專區</h3>
+                @*大頭照*@
+                <img class="img-profile rounded-circle" style="height: 175px; width: 175px; border:5px solid grey;" src="@Url.Action("GetPicture","User", new { id = ViewBag.UserID })">
+            </div>
+
+            <div class="accordion col-sm-9 container m-4 text-dark" id="accordionExample">
+                <div class="card" style="background-image: url('../../images/paper.jpg'); color:steelblue">
+                    @*我的基本資料*@
+                    <div class="card-header " id="headingOne">
+                        <h2 class="mb-0">
+                            <button style="font-size:100%; color:#a35900" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                我的基本資料
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div style="float:left">
+                                <div style="width:350px">
+                                    <h5><a class="icon-star" style="margin:1%;color:darkcyan"></a>帳戶: @ViewBag.UserAccount</h5>
+                                    <h5><a class="icon-user" style="margin:1%;color:darkcyan"></a>姓名: @ViewBag.UserName</h5>
+                                    <h5><a class="icon-people" style="margin:1%;color:darkcyan"></a>性別: @ViewBag.Gender</h5>
+                                    <h5><a class="icon-badge" style="margin:1%;color:darkcyan"></a>用戶層級: @ViewBag.Rank</h5>
+                                    <h5><a class="icon-calendar" style="margin:1%;color:darkcyan"></a>生日: @ViewBag.Birth</h5>
+                                </div>
+                            </div>
+                            <div style="float:right">
+                                <div style="width:350px">
+                                    <h5><a class="icon-home" style="margin:1%;color:darkcyan"></a>住址: @ViewBag.Address</h5>
+                                    <h5><a class="icon-envelope" style="margin:1%;color:darkcyan"></a>信箱: @ViewBag.Email</h5>
+                                    <h5><a class="icon-phone" style="margin:1%;color:darkcyan"></a>電話: @ViewBag.Phone</h5>
+                                    <h5><a class="icon-graduation" style="margin:1%;color:darkcyan"></a>加入時間: @ViewBag.CreateTime</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="~/User/Edit/@ViewBag.UserID" class="btn btn-info btn-lg btn-block" style="">修改我的會員資料</a>
+                    </div>
+                </div>
+                @*我的最愛*@
+                @*<div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button style="font-size:100%" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    我的專長
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <a href="~/User/EditSkill/@ViewBag.UserID" class="button" style="background-color:lightblue; color:darkblue">修改我的專長</a>
+                            </div>
+                        </div>
+                    </div>*@
+                @*我的課程*@
+                <div class="card" style="background-image: url('../../images/paper.jpg');">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button style="font-size:100%; color:#a35900" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                我的課程
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="">
+                                @if (Request.Cookies["permission"].Value == "3")
+                                {
+                                    @Html.ActionLink("我教的課", "Teaching", "Class", new { id = Request.Cookies["UserID"].Value }, new { @class = "btn btn-primary btn-lg btn-block" })
+                                }
+                                @Html.ActionLink("我學的課", "Learning", "Class", new { id = Request.Cookies["UserID"].Value }, new { @class = "btn btn-secondary btn-lg btn-block" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*我的購物車*@
+                @*<div class="card">
+                        <div class="card-header" id="headingFour">
+                            <h2 class="mb-0">
+                                <button style="font-size:100%" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    我的購物車
+                                </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    @*==========以上主要顯示區==========*@
+</body>
+
+
+<script>
+    $(".btn-flash").on("mouseover", function () {
+        $(this).removeClass("noborder-button").addClass("border-button")
+    })
+    $(".btn-flash").on("mouseout", function () {
+        $(this).removeClass("border-button").addClass("noborder-button")
+    })
+</script>

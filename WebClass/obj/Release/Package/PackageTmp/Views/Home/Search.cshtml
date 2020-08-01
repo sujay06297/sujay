@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebClass.Models.C_Class>
+
+@{
+    ViewBag.Title = "進階搜索";
+}
+
+<script src="~/Scripts/Cloud/js/epmrgo.js"></script>
+<link href="~/Scripts/Cloud/css/style.css" rel="stylesheet" />
+
+<style>
+    table {
+        font-weight: bold;
+    }
+</style>
+
+<div class="container" style="padding:7%; font-weight:bold;">
+    @using (Html.BeginForm("Search", "Home", FormMethod.Get))
+    {
+        <div class="container container-fluid" style="margin:5%">
+            <a>搜尋課程名稱:</a>
+            @Html.TextBox("ClassName")<br /><br />
+            <a>搜尋老師名稱:</a>
+            @Html.TextBox("UserName")<br /><br />
+            <a>搜尋類別名稱:</a>
+            @*@Html.TextBox("ClassTypeName")<br /><br />*@
+            @Html.DropDownList("ClassTypeName", new SelectList(ViewBag.List), "請選擇")<br /><br />
+            <a>搜尋時間範圍:</a>
+            <input name="RegisterTimeMin" type="date" width="10" class="date" /><a>~</a><input name="RegisterTimeMax" type="date" width="10" class="date" />
+            <input type="submit" class="btn btn-info" value="搜尋">
+        </div>
+    }
+
+    <table class="table">
+        <thead>
+            <tr style="border:hidden; color:green">
+                <th>課程名稱</th>
+                <th>授課人</th>
+                <th>課程類型</th>
+                <th>開始時間</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.Count() != 0)
+            {
+                foreach (var v in Model)
+                {
+                    <tr style="border:hidden">
+                        <td>@v.ClassName</td>
+                        <td>@v.U_User.UserName</td>
+                        <td>@v.C_ClassType.ClassTypeName</td>
+                        <td>@v.RegisterTime</td>
+                        <td>@Html.ActionLink("細節", "Detial", "Class", new { id = v.ClassID }, new { @class = "btn btn-success" })</td>
+                    </tr>
+
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+<div id="Clouds" style="z-index:-1">
+    <div class="Cloud Foreground"></div>
+    <div class="Cloud Background"></div>
+    <div class="Cloud Foreground"></div>
+    <div class="Cloud Background"></div>
+    <div class="Cloud Background"></div>
+    <div class="Cloud Foreground"></div>
+    <div class="Cloud Background"></div>
+    <div class="Cloud Background"></div>
+    <!--  <svg viewBox="0 0 40 24" class="Cloud"><use xlink:href="#Cloud"></use></svg>-->
+</div>
+
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     width="40px" height="24px" viewBox="0 0 40 24" enable- xml:space="preserve">
+<defs>
+<path id="Cloud" d="M33.85,14.388c-0.176,0-0.343,0.034-0.513,0.054c0.184-0.587,0.279-1.208,0.279-1.853c0-3.463-2.809-6.271-6.272-6.271
+	c-0.38,0-0.752,0.039-1.113,0.104C24.874,2.677,21.293,0,17.083,0c-5.379,0-9.739,4.361-9.739,9.738
+	c0,0.418,0.035,0.826,0.084,1.229c-0.375-0.069-0.761-0.11-1.155-0.11C2.811,10.856,0,13.665,0,17.126
+	c0,3.467,2.811,6.275,6.272,6.275c0.214,0,27.156,0.109,27.577,0.109c2.519,0,4.56-2.043,4.56-4.562
+	C38.409,16.43,36.368,14.388,33.85,14.388z" />
+
+  </defs>
+</svg>
+

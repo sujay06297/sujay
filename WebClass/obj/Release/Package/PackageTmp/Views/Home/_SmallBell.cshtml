@@ -1,0 +1,145 @@
+﻿@model IEnumerable<WebClass.Models.U_SmallBell>
+
+<style>
+    #smallbellli:hover {
+        background-color: #ecf5ff;
+    }
+
+    #smallbellli {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hr {
+        margin: 0px;
+    }
+
+    .clearfix a {
+        text-decoration: none;
+    }
+
+    .smallbellclass a {
+        font-size: 16px;
+        text-decoration: none !important;
+    }
+</style>
+
+
+<div class="dropdown-menu dropdown-menu-right">
+
+    <div class="smallbellclass" style="height: 500px;width:350px;  overflow-y: scroll;">
+        <div style="text-align:center;">
+            <i id="bellcount" data-count="@Model.Where(c=>c.ReadYN!=true).Count()"></i><span class="badge">@Model.Where(c => c.ReadYN != true).Count()</span>
+            <a id="read" href="javascript:void(0)">全部標記為已讀 <i class="far fa-check-circle"></i></a>
+        </div>
+        <ul class="shopping-cart-items">
+            @foreach (var item in Model)
+            {
+                if (item.StatusTypeID == 2)
+                {
+                    <li class="clearfix">
+                        <div class="" id="smallbellli" style="height:90px">
+                            <a href=" ~/Class/Detial/@item.ClassID">
+                                <div>
+                                    <div style="margin-left:5px;float:left">
+                                        <img src="@Url.Action("GetImage", "Class", new {id= item.ClassID})" width="120" height="90" alt="item1" />
+                                    </div>
+                                    <div style="height:100px;display:flex;flex-direction:column;justify-content:flex-start">
+                                        <div style="display:flex">
+                                            <span class="">@item.C_Class.ClassName </span>
+                                        </div>
+                                        <div style="display:flex">
+                                            <span>@item.U_StatusType.StatusContent</span>
+                                        </div>
+                                        <div style="display:flex;margin-top:auto">
+                                            <span><i class="far fa-thumbs-up"></i>  @item.CreatedDate</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+                        </div>
+                        <hr class="hr" />
+                    </li>
+                }
+                if (item.StatusTypeID == 1)
+                {
+                    <li class="clearfix">
+                        <div class="" id="smallbellli" style="height:90px">
+                            <a href=" ~/Class/Detial/@item.ClassID">
+                                <div>
+                                    <div style="margin-left:5px;float:left">
+                                        <img src="@Url.Action("GetImage", "Class", new {id= item.ClassID})" width="120" height="90" alt="item1" />
+                                    </div>
+
+                                    <div style="height:90px;display:flex;flex-direction:column;justify-content:flex-start">
+                                        <div style="display:flex">
+                                            <span class="">@item.C_Class.ClassName </span>
+                                        </div>
+                                        <div style="display:flex">
+                                            <span>@item.U_StatusType.StatusContent</span>
+                                        </div>
+                                        <div style="display:flex;margin-top:auto">
+                                            <span><i class="far fa-thumbs-up"></i>  @item.CreatedDate</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+                        </div>
+                        <hr class="hr" />
+                    </li>
+                }
+                if (item.StatusTypeID == 4)
+                {
+                    <li class="clearfix">
+                        <div class="" id="smallbellli" style="height:90px">
+                            <a href=" ~/Class/Detial/@item.ClassID">
+                                <div>
+                                    <div style="margin-left:5px;float:left">
+                                        <img src="@Url.Action("GetImage", "Class", new {id= item.ClassID})" width="120" height="90" alt="item1" />
+                                    </div>
+
+                                    <div style="height:100px;display:flex;flex-direction:column;justify-content:flex-start">
+                                        <div style="display:flex">
+                                            <span class="">@item.C_Class.ClassName </span>
+                                        </div>
+                                        <div style="display:flex">
+                                            <span>@item.NoticeContent</span>
+                                        </div>
+                                        <div style="display:flex;margin-top:auto">
+                                            <span><i class="far fa-thumbs-up"></i>  @item.CreatedDate</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </a>
+                        </div>
+                        <hr class="hr" />
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        priceSum();
+        $('#layoutBellcount').text($('#bellcount').data('count'));
+    });
+
+
+    $('#read').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("_SmallBell", "Home")',
+            data: { read:true},
+            success:  function (data) {
+                $('#SmallBellDropDown').html(data);
+            }
+        })
+    })
+
+</script>

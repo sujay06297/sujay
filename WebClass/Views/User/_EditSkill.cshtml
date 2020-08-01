@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WebClass.Models.U_Skill>
+
+
+
+
+<div  class=" col-4 row">
+    @foreach (var items in Model)
+    {
+        <button id="draggable-@items.SkillID" data-skid="@items.SkillID" class="draggable" draggable="true" style="margin:10px"> @items.SkillName</button>
+    }
+</div>
+
+

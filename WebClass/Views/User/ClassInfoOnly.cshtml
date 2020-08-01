@@ -1,0 +1,33 @@
+﻿@model WebClass.Models.C_Class
+@{
+    ViewBag.Title = "ClassInfoOnly";
+}
+<div class="container" style="margin-top:5%">
+    <h1>課程資訊</h1>
+    <form action="~/User/EditClassCheckPassed" method="post">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container">
+                    <h2 class="badge-warning">課程內容</h2>
+                </div>
+                @*==========課程內容物頭==========*@
+                <div class="proposal-video-container">
+                    <div class="course-bg">
+                        <div class="cover-image"></div>
+                    </div>
+                    <div class="section">
+
+                        <h1 class="course-title text-center">@Html.DisplayFor(c => c.ClassName)</h1>
+                        <img class="thumb" title="bytesImage" src="@Url.Action("GetImage", "Class", new {id=Model.ClassID })" />
+
+                        <hr />
+                        <div class="">
+                            @Html.Raw(Model.ClassContent)
+                        </div>
+                    </div>
+                </div>
+                @*==========課程內容物尾==========*@
+            </div>
+        </div>
+    </form>
+</div>

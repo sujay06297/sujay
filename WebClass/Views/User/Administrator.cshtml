@@ -1,0 +1,365 @@
+﻿@model  IEnumerable<WebClass.Models.C_Class>
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Administrator";
+}
+
+@*chart專用*@
+@*圓餅1號*@
+@*<script src="~/Scripts/chart/exporting.js"></script>*@
+<script src="~/Scripts/chart/highcharts.js"></script>
+@*圓餅2號*@
+@*<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>*@
+@*長條1號*@
+@*<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>*@
+
+<style>
+</style>
+
+
+<head>
+    @*應用Bootstrap樣板資源1(sb-admin)*@
+    @*<link href="~/Content/sb-admin/sb-admin-2.css" rel="stylesheet" />*@
+
+    @*table自動排序用*@
+    <link href="~/Content/coreui.min.css" rel="stylesheet" />
+
+    @*網狀背景*@
+    @*<link href="~/Content/for-particles/ParticlesStyleSheet.css" rel="stylesheet" />*@
+</head>
+
+@*網狀背景*@
+@Html.Partial("ParticlesView")
+
+
+@*主內容*@
+<div style="margin-top:3%;margin-left:3%;margin-right:3%;margin-bottom:3%">
+    <div>
+        @*<h1 class="mx-2" style="font-family: Microsoft JhengHei; color:black "> Web Class 管理員首頁</h1>*@
+        <div class="container-fluid">
+            <div class="row ">
+
+
+                @Html.Partial("NavigationBarView")
+
+
+                <div class="col-xl-10 p-0 " style="border-radius:5px;">
+                    <div>
+                        <h1 class="mx-1" style="font-family: Microsoft JhengHei; color:black "> Web Class 管理員首頁</h1>
+                        <h3>審課狀態</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6 mb-4 ">
+                            <div class="callout callout-warning shadow h-100 py-2 ">
+                                <div class="card-body ">
+                                    <div class="row no-gutters align-items-center ">
+                                        <div class="col mr-0 h5">
+                                            待審核課程
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Where(c => c.CreateTypeID == 4).Select(o => o).Count()</div>@*用LINQ、Lambda敘述下條件(c指Model的所有資料，o指c範圍的所有資料)*@
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="far fa-file-alt fa-4x text-gray-400"></i>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="callout callout-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-0 h5">
+                                            審核通過課程
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Where(c => c.CreateTypeID == 2).Count()</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fab fa-angellist fa-4x text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="callout callout-danger  shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-0 h5">
+                                            審核未通過課程
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"></div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Where(c => c.CreateTypeID == 5).Count()</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="far fa-dizzy fa-4x text-gray-400"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row ">
+                        <div style="font-family: Microsoft JhengHei;" class="col-xl-6">
+                            <h3>會員相關資訊</h3>
+                            <div id="container1" class="shadow" style=" min-width: 400px; height: 400px;max-width: 1200px; margin: 0 auto ;"></div>
+                        </div>
+                        <div style="font-family: Microsoft JhengHei;" class="col-xl-6">
+                            <h3>課程審核狀態</h3>
+                            <div id="container2" class="shadow" style="min-width: 400px; height: 400px;max-width: 1200px;"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="mx-3 my-3">
+                            <h3>課程類型分佈圖</h3>
+                            <div id="container3" class="shadow" style="min-width: 990px; height: 400px;max-width: 1200px; margin: 0 auto"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@*chart圓餅圖專用1*@
+
+<script>
+
+    $(document).ready(function () {
+        $.getJSON('@Url.Action("PieChartforGender", "User")', function (data) {
+            Highcharts.chart('container1', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: '課程狀態',
+                    style: {
+                        fontSize: '25px',
+                        fontFamily: 'Microsoft JhengHei, sans-serif'
+                    }
+                },
+                tooltip: {
+                    pointFormat: ' <b>{point.percentage:.1f}%</b>',
+                    style: {
+                        fontSize: '20px',
+                        fontFamily: 'Microsoft JhengHei, sans-serif'
+                    },
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                                fontSize: '11px',
+                                fontFamily: 'Microsoft JhengHei, sans-serif'
+                            }
+                        }
+                    }
+                },
+
+                series: [{
+                    name: 'Brands',
+                    colorByPoint: true,
+
+                    data: [{
+                        name: '男性',
+                        y: data.Male, color: '#6699ff'
+                    }, {
+                        name: '女性',
+                        y: data.Female, color: '#ff66a3'
+
+                    }]
+                }]
+
+            });
+        });
+    });
+</script>
+
+
+@*chart圓餅圖專用2*@
+<script>
+
+    $(document).ready(function () {
+        $.getJSON('@Url.Action("PieChartforClassEdit", "User")', function (data) {
+            Highcharts.chart('container2', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: '課程狀態',
+                    style: {
+                        fontSize: '25px',
+                        fontFamily: 'Microsoft JhengHei, sans-serif'
+                    }
+                },
+                tooltip: {
+                    pointFormat: ' <b>{point.percentage:.1f}%</b>',
+                    style: {
+                        fontSize: '20px',
+                        fontFamily: 'Microsoft JhengHei, sans-serif'
+                    },
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                                fontSize: '14px',
+                                fontFamily: 'Microsoft JhengHei, sans-serif'
+                            }
+                        }
+                    }
+                },
+                series: [{
+
+                    colorByPoint: true,
+                    data: [{
+                        name: '已開課',
+                        y: data.HavingClass, color: '#80ffd4'
+                    }, {
+                        name: '開課中',
+                        y: data.PassedClass, color: '#ff9933'
+                    }, {
+                        name: '開課失敗',
+                        y: data.FailedClass
+                    }, {
+                        name: '送審中',
+                        y: data.WaitingToExaming, color: '#ff80d5'
+                    }, {
+                        name: '送審失敗',
+                        y: data.NotpassedClass
+                    }]
+                }]
+            });
+        });
+    });
+</script>
+
+@*chart長條圖專用1*@
+<script>
+
+    $(document).ready(function () {
+        $.getJSON('@Url.Action("BarChartforClass","User")', function (data) {
+            Highcharts.chart('container3', {
+                chart: {
+                    type: 'column',
+                    backgroundColor: {
+                        linearGradient: [0, 0, 500, 500],
+                        stops: [
+                            [0, '#DCDCDC'],
+                            //[1, 'rgb(200, 200, 255)']
+                        ]
+                    },
+                },
+                title: {
+                    text: '課程類型分佈',
+                    style: {
+                        fontSize: '25px',
+                        fontFamily: 'Microsoft JhengHei, sans-serif'
+                    }
+                },
+                subtitle: {
+                    text: '',
+                    style: {
+                        fontSize: '20px',
+                        fontFamily: 'Microsoft JhengHei, sans-serif'
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: '20px',
+                            fontFamily: 'Microsoft JhengHei, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '開課數量',
+                        rotation: -90,
+                        style: {
+                            fontSize: '20px',
+                            fontFamily: 'Microsoft JhengHei, sans-serif'
+                        }
+                    }
+
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: ' <b>{point.y:f} </b>',
+                    style: {
+                        fontSize: '20px',
+                        fontFamily: 'Microsoft JhengHei, sans-serif'
+                    }
+                },
+                series: [{
+                    name: 'Population',
+                    data: [
+                        ['語文', data.Language],
+                        ['投資理財', data.Financial],
+                        ['科學知識', data.Chemistry],
+                        ['社會科學', data.Society],
+                        ['運動', data.Exercise],
+                        ['兩性關係', data.Gender],
+                        ['遊戲', data.Game],
+                        ['音樂', data.Music],
+                        ['程式', data.Program],
+                        ['藝術', data.Art],
+                        ['設計', data.Design],
+                        ['行銷', data.Life],
+                        ['生活常識', data.Littlething],
+                        ['手作', data.Marketing],
+                        ['其他', data.Others]
+                    ],
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -25,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        format: '{point.y:f}', // one decimal
+                        y: 15, // 10 pixels down from the top
+                        style: {
+                            fontSize: '15px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                }]
+            });
+        });
+    });
+</script>
+
+@*網狀背景*@
+@*<script src="~/Scripts/for-Particles/Particles.js"></script>*@

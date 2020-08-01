@@ -1,0 +1,1898 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AOnlineClassModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="B_Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BuyTime" Type="datetime" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="B_OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailID" />
+          </Key>
+          <Property Name="OrderDetailID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="ClassID" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="B_ShoppingCar">
+          <Key>
+            <PropertyRef Name="ShoppingCarID" />
+          </Key>
+          <Property Name="ShoppingCarID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConfirmBuy" Type="bit" Nullable="false" />
+          <Property Name="BuyTime" Type="date" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ClassID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="C_Class">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="MainPicture" Type="varbinary(max)" />
+          <Property Name="ClassContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="UpLoadTime" Type="datetime" />
+          <Property Name="PreRegisterTime" Type="date" Nullable="false" />
+          <Property Name="RegisterTime" Type="date" Nullable="false" />
+          <Property Name="NeedUser" Type="int" Nullable="false" />
+          <Property Name="CreateUserID" Type="int" Nullable="false" />
+          <Property Name="CreateTypeID" Type="int" Nullable="false" />
+          <Property Name="ClassTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="C_ClassType">
+          <Key>
+            <PropertyRef Name="ClassTypeID" />
+          </Key>
+          <Property Name="ClassTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassTypeName" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="C_CreateType">
+          <Key>
+            <PropertyRef Name="CreateTypeID" />
+          </Key>
+          <Property Name="CreateTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreateTypeName" Type="nvarchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="C_Lesson">
+          <Key>
+            <PropertyRef Name="LessonID" />
+          </Key>
+          <Property Name="LessonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LessonName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="LessonVideo" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="LessonContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ClassID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="C_LessonCheckTime">
+          <Key>
+            <PropertyRef Name="LessonTimeCheckID" />
+          </Key>
+          <Property Name="LessonTimeCheckID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LessonTime" Type="int" />
+          <Property Name="LessonTimeCheck" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="LessonID" Type="int" />
+        </EntityType>
+        <EntityType Name="M_MessageBoard">
+          <Key>
+            <PropertyRef Name="MessageBoardID" />
+          </Key>
+          <Property Name="MessageBoardID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MessageBoardContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="PostTime" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="LessonID" Type="int" />
+          <Property Name="PostTypeID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="M_PostType">
+          <Key>
+            <PropertyRef Name="PostTypeID" />
+          </Key>
+          <Property Name="PostTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PostTypeName" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="M_ReMessageBoard">
+          <Key>
+            <PropertyRef Name="ReMessageBoardID" />
+          </Key>
+          <Property Name="ReMessageBoardID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReMessageBoardContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="RePostTime" Type="date" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="MessageBoardID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="M_Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReportDate" Type="date" Nullable="false" />
+          <Property Name="SolDate" Type="date" Nullable="false" />
+          <Property Name="SolutionTypeID" Type="int" Nullable="false" />
+          <Property Name="MessageBoardID" Type="int" />
+          <Property Name="ReMessageBoardID" Type="int" />
+          <Property Name="ReportUserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="M_SolutionType">
+          <Key>
+            <PropertyRef Name="SolutionTypeID" />
+          </Key>
+          <Property Name="SolutionTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SolutionTypeName" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="U_Permission">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PermissionTypeName" Type="nvarchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="U_Skill">
+          <Key>
+            <PropertyRef Name="SkillID" />
+          </Key>
+          <Property Name="SkillID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SkillName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SkillTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="U_SkillType">
+          <Key>
+            <PropertyRef Name="SkillTypeID" />
+          </Key>
+          <Property Name="SkillTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SkillTypeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CategoryID" Type="int" />
+        </EntityType>
+        <EntityType Name="U_SkillTypeCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="U_SmallBell">
+          <Key>
+            <PropertyRef Name="BellID" />
+          </Key>
+          <Property Name="BellID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClassID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="NoticeContent" Type="nvarchar" MaxLength="150" />
+          <Property Name="StatusTypeID" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ReadYN" Type="bit" />
+        </EntityType>
+        <EntityType Name="U_StatusType">
+          <Key>
+            <PropertyRef Name="StatusTypeID" />
+          </Key>
+          <Property Name="StatusTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StatusContent" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="U_User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserAccount" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="UserPhoto" Type="varbinary(max)" />
+          <Property Name="Birth" Type="date" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="2" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="10" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="PermissionID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="U_UserSkill">
+          <Key>
+            <PropertyRef Name="UserSkillID" />
+          </Key>
+          <Property Name="UserSkillID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="SkillID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UC_Follow">
+          <Key>
+            <PropertyRef Name="FollowID" />
+          </Key>
+          <Property Name="FollowID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ClassID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UC_Score">
+          <Key>
+            <PropertyRef Name="ScoreID" />
+          </Key>
+          <Property Name="ScoreID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="ScoreContent" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="ClassID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_B_Order_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="B_Order" Type="Self.B_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="B_Order">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_OrderDetail_B_Order">
+          <End Role="B_Order" Type="Self.B_Order" Multiplicity="1" />
+          <End Role="B_OrderDetail" Type="Self.B_OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="B_Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="B_OrderDetail">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_OrderDetail_C_Class">
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="1" />
+          <End Role="B_OrderDetail" Type="Self.B_OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="B_OrderDetail">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_ShoppingCar_C_Class">
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="1" />
+          <End Role="B_ShoppingCar" Type="Self.B_ShoppingCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="B_ShoppingCar">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_ShoppingCar_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="B_ShoppingCar" Type="Self.B_ShoppingCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="B_ShoppingCar">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Class_C_ClassType">
+          <End Role="C_ClassType" Type="Self.C_ClassType" Multiplicity="1" />
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_ClassType">
+              <PropertyRef Name="ClassTypeID" />
+            </Principal>
+            <Dependent Role="C_Class">
+              <PropertyRef Name="ClassTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Class_C_CreateType">
+          <End Role="C_CreateType" Type="Self.C_CreateType" Multiplicity="1" />
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_CreateType">
+              <PropertyRef Name="CreateTypeID" />
+            </Principal>
+            <Dependent Role="C_Class">
+              <PropertyRef Name="CreateTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Class_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="C_Class">
+              <PropertyRef Name="CreateUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Lesson_C_Class">
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="1" />
+          <End Role="C_Lesson" Type="Self.C_Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="C_Lesson">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_LessonCheckTime_C_Lesson">
+          <End Role="C_Lesson" Type="Self.C_Lesson" Multiplicity="0..1" />
+          <End Role="C_LessonCheckTime" Type="Self.C_LessonCheckTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Lesson">
+              <PropertyRef Name="LessonID" />
+            </Principal>
+            <Dependent Role="C_LessonCheckTime">
+              <PropertyRef Name="LessonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_LessonCheckTime_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="0..1" />
+          <End Role="C_LessonCheckTime" Type="Self.C_LessonCheckTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="C_LessonCheckTime">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_C_Class">
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="0..1" />
+          <End Role="M_MessageBoard" Type="Self.M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_C_Lesson">
+          <End Role="C_Lesson" Type="Self.C_Lesson" Multiplicity="0..1" />
+          <End Role="M_MessageBoard" Type="Self.M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Lesson">
+              <PropertyRef Name="LessonID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="LessonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_M_PostType">
+          <End Role="M_PostType" Type="Self.M_PostType" Multiplicity="1" />
+          <End Role="M_MessageBoard" Type="Self.M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_PostType">
+              <PropertyRef Name="PostTypeID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="PostTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="M_MessageBoard" Type="Self.M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_ReMessageBoard_M_MessageBoard">
+          <End Role="M_MessageBoard" Type="Self.M_MessageBoard" Multiplicity="1" />
+          <End Role="M_ReMessageBoard" Type="Self.M_ReMessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_MessageBoard">
+              <PropertyRef Name="MessageBoardID" />
+            </Principal>
+            <Dependent Role="M_ReMessageBoard">
+              <PropertyRef Name="MessageBoardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_M_MessageBoard">
+          <End Role="M_MessageBoard" Type="Self.M_MessageBoard" Multiplicity="0..1" />
+          <End Role="M_Report" Type="Self.M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_MessageBoard">
+              <PropertyRef Name="MessageBoardID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="MessageBoardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_M_ReMessageBoard">
+          <End Role="M_ReMessageBoard" Type="Self.M_ReMessageBoard" Multiplicity="0..1" />
+          <End Role="M_Report" Type="Self.M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_ReMessageBoard">
+              <PropertyRef Name="ReMessageBoardID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="ReMessageBoardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_M_SolutionType">
+          <End Role="M_SolutionType" Type="Self.M_SolutionType" Multiplicity="1" />
+          <End Role="M_Report" Type="Self.M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_SolutionType">
+              <PropertyRef Name="SolutionTypeID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="SolutionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="M_Report" Type="Self.M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="ReportUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_Skill_U_SkillType">
+          <End Role="U_SkillType" Type="Self.U_SkillType" Multiplicity="0..1" />
+          <End Role="U_Skill" Type="Self.U_Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_SkillType">
+              <PropertyRef Name="SkillTypeID" />
+            </Principal>
+            <Dependent Role="U_Skill">
+              <PropertyRef Name="SkillTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SkillType_U_SkillTypeCategory">
+          <End Role="U_SkillTypeCategory" Type="Self.U_SkillTypeCategory" Multiplicity="0..1" />
+          <End Role="U_SkillType" Type="Self.U_SkillType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_SkillTypeCategory">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="U_SkillType">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SmallBell_C_Class">
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="0..1" />
+          <End Role="U_SmallBell" Type="Self.U_SmallBell" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="U_SmallBell">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SmallBell_U_StatusType">
+          <End Role="U_StatusType" Type="Self.U_StatusType" Multiplicity="0..1" />
+          <End Role="U_SmallBell" Type="Self.U_SmallBell" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_StatusType">
+              <PropertyRef Name="StatusTypeID" />
+            </Principal>
+            <Dependent Role="U_SmallBell">
+              <PropertyRef Name="StatusTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SmallBell_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="0..1" />
+          <End Role="U_SmallBell" Type="Self.U_SmallBell" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="U_SmallBell">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_User_U_Permission">
+          <End Role="U_Permission" Type="Self.U_Permission" Multiplicity="1" />
+          <End Role="U_User" Type="Self.U_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_Permission">
+              <PropertyRef Name="PermissionID" />
+            </Principal>
+            <Dependent Role="U_User">
+              <PropertyRef Name="PermissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_UserSkill_U_Skill">
+          <End Role="U_Skill" Type="Self.U_Skill" Multiplicity="1" />
+          <End Role="U_UserSkill" Type="Self.U_UserSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_Skill">
+              <PropertyRef Name="SkillID" />
+            </Principal>
+            <Dependent Role="U_UserSkill">
+              <PropertyRef Name="SkillID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_UserSkill_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="U_UserSkill" Type="Self.U_UserSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="U_UserSkill">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Follow_C_Class">
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="1" />
+          <End Role="UC_Follow" Type="Self.UC_Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="UC_Follow">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Follow_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="UC_Follow" Type="Self.UC_Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UC_Follow">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Score_C_Class">
+          <End Role="C_Class" Type="Self.C_Class" Multiplicity="1" />
+          <End Role="UC_Score" Type="Self.UC_Score" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="UC_Score">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Score_U_User">
+          <End Role="U_User" Type="Self.U_User" Multiplicity="1" />
+          <End Role="UC_Score" Type="Self.UC_Score" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UC_Score">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AOnlineClassModelStoreContainer">
+          <EntitySet Name="B_Order" EntityType="Self.B_Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_OrderDetail" EntityType="Self.B_OrderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="B_ShoppingCar" EntityType="Self.B_ShoppingCar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Class" EntityType="Self.C_Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_ClassType" EntityType="Self.C_ClassType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_CreateType" EntityType="Self.C_CreateType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Lesson" EntityType="Self.C_Lesson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_LessonCheckTime" EntityType="Self.C_LessonCheckTime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="M_MessageBoard" EntityType="Self.M_MessageBoard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="M_PostType" EntityType="Self.M_PostType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="M_ReMessageBoard" EntityType="Self.M_ReMessageBoard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="M_Report" EntityType="Self.M_Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="M_SolutionType" EntityType="Self.M_SolutionType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_Permission" EntityType="Self.U_Permission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_Skill" EntityType="Self.U_Skill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_SkillType" EntityType="Self.U_SkillType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_SkillTypeCategory" EntityType="Self.U_SkillTypeCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_SmallBell" EntityType="Self.U_SmallBell" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_StatusType" EntityType="Self.U_StatusType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_User" EntityType="Self.U_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="U_UserSkill" EntityType="Self.U_UserSkill" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UC_Follow" EntityType="Self.UC_Follow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UC_Score" EntityType="Self.UC_Score" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_B_Order_U_User" Association="Self.FK_B_Order_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="B_Order" EntitySet="B_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_OrderDetail_B_Order" Association="Self.FK_B_OrderDetail_B_Order">
+            <End Role="B_Order" EntitySet="B_Order" />
+            <End Role="B_OrderDetail" EntitySet="B_OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_OrderDetail_C_Class" Association="Self.FK_B_OrderDetail_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="B_OrderDetail" EntitySet="B_OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_ShoppingCar_C_Class" Association="Self.FK_B_ShoppingCar_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="B_ShoppingCar" EntitySet="B_ShoppingCar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_ShoppingCar_U_User" Association="Self.FK_B_ShoppingCar_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="B_ShoppingCar" EntitySet="B_ShoppingCar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Class_C_ClassType" Association="Self.FK_C_Class_C_ClassType">
+            <End Role="C_ClassType" EntitySet="C_ClassType" />
+            <End Role="C_Class" EntitySet="C_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Class_C_CreateType" Association="Self.FK_C_Class_C_CreateType">
+            <End Role="C_CreateType" EntitySet="C_CreateType" />
+            <End Role="C_Class" EntitySet="C_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Class_U_User" Association="Self.FK_C_Class_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="C_Class" EntitySet="C_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Lesson_C_Class" Association="Self.FK_C_Lesson_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="C_Lesson" EntitySet="C_Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_LessonCheckTime_C_Lesson" Association="Self.FK_C_LessonCheckTime_C_Lesson">
+            <End Role="C_Lesson" EntitySet="C_Lesson" />
+            <End Role="C_LessonCheckTime" EntitySet="C_LessonCheckTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_LessonCheckTime_U_User" Association="Self.FK_C_LessonCheckTime_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="C_LessonCheckTime" EntitySet="C_LessonCheckTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_C_Class" Association="Self.FK_M_MessageBoard_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_C_Lesson" Association="Self.FK_M_MessageBoard_C_Lesson">
+            <End Role="C_Lesson" EntitySet="C_Lesson" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_M_PostType" Association="Self.FK_M_MessageBoard_M_PostType">
+            <End Role="M_PostType" EntitySet="M_PostType" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_U_User" Association="Self.FK_M_MessageBoard_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_ReMessageBoard_M_MessageBoard" Association="Self.FK_M_ReMessageBoard_M_MessageBoard">
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+            <End Role="M_ReMessageBoard" EntitySet="M_ReMessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_M_MessageBoard" Association="Self.FK_M_Report_M_MessageBoard">
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_M_ReMessageBoard" Association="Self.FK_M_Report_M_ReMessageBoard">
+            <End Role="M_ReMessageBoard" EntitySet="M_ReMessageBoard" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_M_SolutionType" Association="Self.FK_M_Report_M_SolutionType">
+            <End Role="M_SolutionType" EntitySet="M_SolutionType" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_U_User" Association="Self.FK_M_Report_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_Skill_U_SkillType" Association="Self.FK_U_Skill_U_SkillType">
+            <End Role="U_SkillType" EntitySet="U_SkillType" />
+            <End Role="U_Skill" EntitySet="U_Skill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SkillType_U_SkillTypeCategory" Association="Self.FK_U_SkillType_U_SkillTypeCategory">
+            <End Role="U_SkillTypeCategory" EntitySet="U_SkillTypeCategory" />
+            <End Role="U_SkillType" EntitySet="U_SkillType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SmallBell_C_Class" Association="Self.FK_U_SmallBell_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="U_SmallBell" EntitySet="U_SmallBell" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SmallBell_U_StatusType" Association="Self.FK_U_SmallBell_U_StatusType">
+            <End Role="U_StatusType" EntitySet="U_StatusType" />
+            <End Role="U_SmallBell" EntitySet="U_SmallBell" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SmallBell_U_User" Association="Self.FK_U_SmallBell_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="U_SmallBell" EntitySet="U_SmallBell" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_User_U_Permission" Association="Self.FK_U_User_U_Permission">
+            <End Role="U_Permission" EntitySet="U_Permission" />
+            <End Role="U_User" EntitySet="U_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_UserSkill_U_Skill" Association="Self.FK_U_UserSkill_U_Skill">
+            <End Role="U_Skill" EntitySet="U_Skill" />
+            <End Role="U_UserSkill" EntitySet="U_UserSkill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_UserSkill_U_User" Association="Self.FK_U_UserSkill_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="U_UserSkill" EntitySet="U_UserSkill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Follow_C_Class" Association="Self.FK_UC_Follow_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="UC_Follow" EntitySet="UC_Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Follow_U_User" Association="Self.FK_UC_Follow_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="UC_Follow" EntitySet="UC_Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Score_C_Class" Association="Self.FK_UC_Score_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="UC_Score" EntitySet="UC_Score" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Score_U_User" Association="Self.FK_UC_Score_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="UC_Score" EntitySet="UC_Score" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AOnlineClassModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AOnlineClassEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="B_Order" EntityType="AOnlineClassModel.B_Order" />
+          <EntitySet Name="B_OrderDetail" EntityType="AOnlineClassModel.B_OrderDetail" />
+          <EntitySet Name="B_ShoppingCar" EntityType="AOnlineClassModel.B_ShoppingCar" />
+          <EntitySet Name="C_Class" EntityType="AOnlineClassModel.C_Class" />
+          <EntitySet Name="C_ClassType" EntityType="AOnlineClassModel.C_ClassType" />
+          <EntitySet Name="C_CreateType" EntityType="AOnlineClassModel.C_CreateType" />
+          <EntitySet Name="C_Lesson" EntityType="AOnlineClassModel.C_Lesson" />
+          <EntitySet Name="C_LessonCheckTime" EntityType="AOnlineClassModel.C_LessonCheckTime" />
+          <EntitySet Name="M_MessageBoard" EntityType="AOnlineClassModel.M_MessageBoard" />
+          <EntitySet Name="M_PostType" EntityType="AOnlineClassModel.M_PostType" />
+          <EntitySet Name="M_ReMessageBoard" EntityType="AOnlineClassModel.M_ReMessageBoard" />
+          <EntitySet Name="M_Report" EntityType="AOnlineClassModel.M_Report" />
+          <EntitySet Name="M_SolutionType" EntityType="AOnlineClassModel.M_SolutionType" />
+          <EntitySet Name="sysdiagrams" EntityType="AOnlineClassModel.sysdiagrams" />
+          <EntitySet Name="U_Permission" EntityType="AOnlineClassModel.U_Permission" />
+          <EntitySet Name="U_Skill" EntityType="AOnlineClassModel.U_Skill" />
+          <EntitySet Name="U_SkillType" EntityType="AOnlineClassModel.U_SkillType" />
+          <EntitySet Name="U_SkillTypeCategory" EntityType="AOnlineClassModel.U_SkillTypeCategory" />
+          <EntitySet Name="U_SmallBell" EntityType="AOnlineClassModel.U_SmallBell" />
+          <EntitySet Name="U_StatusType" EntityType="AOnlineClassModel.U_StatusType" />
+          <EntitySet Name="U_User" EntityType="AOnlineClassModel.U_User" />
+          <EntitySet Name="U_UserSkill" EntityType="AOnlineClassModel.U_UserSkill" />
+          <EntitySet Name="UC_Follow" EntityType="AOnlineClassModel.UC_Follow" />
+          <EntitySet Name="UC_Score" EntityType="AOnlineClassModel.UC_Score" />
+          <AssociationSet Name="FK_B_Order_U_User" Association="AOnlineClassModel.FK_B_Order_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="B_Order" EntitySet="B_Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_OrderDetail_B_Order" Association="AOnlineClassModel.FK_B_OrderDetail_B_Order">
+            <End Role="B_Order" EntitySet="B_Order" />
+            <End Role="B_OrderDetail" EntitySet="B_OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_OrderDetail_C_Class" Association="AOnlineClassModel.FK_B_OrderDetail_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="B_OrderDetail" EntitySet="B_OrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_ShoppingCar_C_Class" Association="AOnlineClassModel.FK_B_ShoppingCar_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="B_ShoppingCar" EntitySet="B_ShoppingCar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_B_ShoppingCar_U_User" Association="AOnlineClassModel.FK_B_ShoppingCar_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="B_ShoppingCar" EntitySet="B_ShoppingCar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Class_C_ClassType" Association="AOnlineClassModel.FK_C_Class_C_ClassType">
+            <End Role="C_ClassType" EntitySet="C_ClassType" />
+            <End Role="C_Class" EntitySet="C_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Class_C_CreateType" Association="AOnlineClassModel.FK_C_Class_C_CreateType">
+            <End Role="C_CreateType" EntitySet="C_CreateType" />
+            <End Role="C_Class" EntitySet="C_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Class_U_User" Association="AOnlineClassModel.FK_C_Class_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="C_Class" EntitySet="C_Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_Lesson_C_Class" Association="AOnlineClassModel.FK_C_Lesson_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="C_Lesson" EntitySet="C_Lesson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_C_Class" Association="AOnlineClassModel.FK_M_MessageBoard_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SmallBell_C_Class" Association="AOnlineClassModel.FK_U_SmallBell_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="U_SmallBell" EntitySet="U_SmallBell" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Follow_C_Class" Association="AOnlineClassModel.FK_UC_Follow_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="UC_Follow" EntitySet="UC_Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Score_C_Class" Association="AOnlineClassModel.FK_UC_Score_C_Class">
+            <End Role="C_Class" EntitySet="C_Class" />
+            <End Role="UC_Score" EntitySet="UC_Score" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_LessonCheckTime_C_Lesson" Association="AOnlineClassModel.FK_C_LessonCheckTime_C_Lesson">
+            <End Role="C_Lesson" EntitySet="C_Lesson" />
+            <End Role="C_LessonCheckTime" EntitySet="C_LessonCheckTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_C_Lesson" Association="AOnlineClassModel.FK_M_MessageBoard_C_Lesson">
+            <End Role="C_Lesson" EntitySet="C_Lesson" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_C_LessonCheckTime_U_User" Association="AOnlineClassModel.FK_C_LessonCheckTime_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="C_LessonCheckTime" EntitySet="C_LessonCheckTime" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_M_PostType" Association="AOnlineClassModel.FK_M_MessageBoard_M_PostType">
+            <End Role="M_PostType" EntitySet="M_PostType" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_MessageBoard_U_User" Association="AOnlineClassModel.FK_M_MessageBoard_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_ReMessageBoard_M_MessageBoard" Association="AOnlineClassModel.FK_M_ReMessageBoard_M_MessageBoard">
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+            <End Role="M_ReMessageBoard" EntitySet="M_ReMessageBoard" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_M_MessageBoard" Association="AOnlineClassModel.FK_M_Report_M_MessageBoard">
+            <End Role="M_MessageBoard" EntitySet="M_MessageBoard" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_M_ReMessageBoard" Association="AOnlineClassModel.FK_M_Report_M_ReMessageBoard">
+            <End Role="M_ReMessageBoard" EntitySet="M_ReMessageBoard" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_M_SolutionType" Association="AOnlineClassModel.FK_M_Report_M_SolutionType">
+            <End Role="M_SolutionType" EntitySet="M_SolutionType" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_M_Report_U_User" Association="AOnlineClassModel.FK_M_Report_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="M_Report" EntitySet="M_Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_User_U_Permission" Association="AOnlineClassModel.FK_U_User_U_Permission">
+            <End Role="U_Permission" EntitySet="U_Permission" />
+            <End Role="U_User" EntitySet="U_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_Skill_U_SkillType" Association="AOnlineClassModel.FK_U_Skill_U_SkillType">
+            <End Role="U_SkillType" EntitySet="U_SkillType" />
+            <End Role="U_Skill" EntitySet="U_Skill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_UserSkill_U_Skill" Association="AOnlineClassModel.FK_U_UserSkill_U_Skill">
+            <End Role="U_Skill" EntitySet="U_Skill" />
+            <End Role="U_UserSkill" EntitySet="U_UserSkill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SkillType_U_SkillTypeCategory" Association="AOnlineClassModel.FK_U_SkillType_U_SkillTypeCategory">
+            <End Role="U_SkillTypeCategory" EntitySet="U_SkillTypeCategory" />
+            <End Role="U_SkillType" EntitySet="U_SkillType" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SmallBell_U_StatusType" Association="AOnlineClassModel.FK_U_SmallBell_U_StatusType">
+            <End Role="U_StatusType" EntitySet="U_StatusType" />
+            <End Role="U_SmallBell" EntitySet="U_SmallBell" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_SmallBell_U_User" Association="AOnlineClassModel.FK_U_SmallBell_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="U_SmallBell" EntitySet="U_SmallBell" />
+          </AssociationSet>
+          <AssociationSet Name="FK_U_UserSkill_U_User" Association="AOnlineClassModel.FK_U_UserSkill_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="U_UserSkill" EntitySet="U_UserSkill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Follow_U_User" Association="AOnlineClassModel.FK_UC_Follow_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="UC_Follow" EntitySet="UC_Follow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UC_Score_U_User" Association="AOnlineClassModel.FK_UC_Score_U_User">
+            <End Role="U_User" EntitySet="U_User" />
+            <End Role="UC_Score" EntitySet="UC_Score" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="B_Order">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BuyTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_B_Order_U_User" FromRole="B_Order" ToRole="U_User" />
+          <NavigationProperty Name="B_OrderDetail" Relationship="AOnlineClassModel.FK_B_OrderDetail_B_Order" FromRole="B_Order" ToRole="B_OrderDetail" />
+        </EntityType>
+        <EntityType Name="B_OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderDetailID" />
+          </Key>
+          <Property Name="OrderDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="B_Order" Relationship="AOnlineClassModel.FK_B_OrderDetail_B_Order" FromRole="B_OrderDetail" ToRole="B_Order" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_B_OrderDetail_C_Class" FromRole="B_OrderDetail" ToRole="C_Class" />
+        </EntityType>
+        <EntityType Name="B_ShoppingCar">
+          <Key>
+            <PropertyRef Name="ShoppingCarID" />
+          </Key>
+          <Property Name="ShoppingCarID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConfirmBuy" Type="Boolean" Nullable="false" />
+          <Property Name="BuyTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_B_ShoppingCar_C_Class" FromRole="B_ShoppingCar" ToRole="C_Class" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_B_ShoppingCar_U_User" FromRole="B_ShoppingCar" ToRole="U_User" />
+        </EntityType>
+        <EntityType Name="C_Class">
+          <Key>
+            <PropertyRef Name="ClassID" />
+          </Key>
+          <Property Name="ClassID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassName" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="MainPicture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ClassContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UpLoadTime" Type="DateTime" Precision="3" />
+          <Property Name="PreRegisterTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RegisterTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NeedUser" Type="Int32" Nullable="false" />
+          <Property Name="CreateUserID" Type="Int32" Nullable="false" />
+          <Property Name="CreateTypeID" Type="Int32" Nullable="false" />
+          <Property Name="ClassTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="B_OrderDetail" Relationship="AOnlineClassModel.FK_B_OrderDetail_C_Class" FromRole="C_Class" ToRole="B_OrderDetail" />
+          <NavigationProperty Name="B_ShoppingCar" Relationship="AOnlineClassModel.FK_B_ShoppingCar_C_Class" FromRole="C_Class" ToRole="B_ShoppingCar" />
+          <NavigationProperty Name="C_ClassType" Relationship="AOnlineClassModel.FK_C_Class_C_ClassType" FromRole="C_Class" ToRole="C_ClassType" />
+          <NavigationProperty Name="C_CreateType" Relationship="AOnlineClassModel.FK_C_Class_C_CreateType" FromRole="C_Class" ToRole="C_CreateType" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_C_Class_U_User" FromRole="C_Class" ToRole="U_User" />
+          <NavigationProperty Name="C_Lesson" Relationship="AOnlineClassModel.FK_C_Lesson_C_Class" FromRole="C_Class" ToRole="C_Lesson" />
+          <NavigationProperty Name="M_MessageBoard" Relationship="AOnlineClassModel.FK_M_MessageBoard_C_Class" FromRole="C_Class" ToRole="M_MessageBoard" />
+          <NavigationProperty Name="U_SmallBell" Relationship="AOnlineClassModel.FK_U_SmallBell_C_Class" FromRole="C_Class" ToRole="U_SmallBell" />
+          <NavigationProperty Name="UC_Follow" Relationship="AOnlineClassModel.FK_UC_Follow_C_Class" FromRole="C_Class" ToRole="UC_Follow" />
+          <NavigationProperty Name="UC_Score" Relationship="AOnlineClassModel.FK_UC_Score_C_Class" FromRole="C_Class" ToRole="UC_Score" />
+        </EntityType>
+        <EntityType Name="C_ClassType">
+          <Key>
+            <PropertyRef Name="ClassTypeID" />
+          </Key>
+          <Property Name="ClassTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassTypeName" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_C_Class_C_ClassType" FromRole="C_ClassType" ToRole="C_Class" />
+        </EntityType>
+        <EntityType Name="C_CreateType">
+          <Key>
+            <PropertyRef Name="CreateTypeID" />
+          </Key>
+          <Property Name="CreateTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreateTypeName" Type="String" Nullable="false" MaxLength="6" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_C_Class_C_CreateType" FromRole="C_CreateType" ToRole="C_Class" />
+        </EntityType>
+        <EntityType Name="C_Lesson">
+          <Key>
+            <PropertyRef Name="LessonID" />
+          </Key>
+          <Property Name="LessonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LessonName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="LessonVideo" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="LessonContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_C_Lesson_C_Class" FromRole="C_Lesson" ToRole="C_Class" />
+          <NavigationProperty Name="C_LessonCheckTime" Relationship="AOnlineClassModel.FK_C_LessonCheckTime_C_Lesson" FromRole="C_Lesson" ToRole="C_LessonCheckTime" />
+          <NavigationProperty Name="M_MessageBoard" Relationship="AOnlineClassModel.FK_M_MessageBoard_C_Lesson" FromRole="C_Lesson" ToRole="M_MessageBoard" />
+        </EntityType>
+        <EntityType Name="C_LessonCheckTime">
+          <Key>
+            <PropertyRef Name="LessonTimeCheckID" />
+          </Key>
+          <Property Name="LessonTimeCheckID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LessonTime" Type="Int32" />
+          <Property Name="LessonTimeCheck" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="LessonID" Type="Int32" />
+          <NavigationProperty Name="C_Lesson" Relationship="AOnlineClassModel.FK_C_LessonCheckTime_C_Lesson" FromRole="C_LessonCheckTime" ToRole="C_Lesson" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_C_LessonCheckTime_U_User" FromRole="C_LessonCheckTime" ToRole="U_User" />
+        </EntityType>
+        <EntityType Name="M_MessageBoard">
+          <Key>
+            <PropertyRef Name="MessageBoardID" />
+          </Key>
+          <Property Name="MessageBoardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MessageBoardContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PostTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="LessonID" Type="Int32" />
+          <Property Name="PostTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_M_MessageBoard_C_Class" FromRole="M_MessageBoard" ToRole="C_Class" />
+          <NavigationProperty Name="C_Lesson" Relationship="AOnlineClassModel.FK_M_MessageBoard_C_Lesson" FromRole="M_MessageBoard" ToRole="C_Lesson" />
+          <NavigationProperty Name="M_PostType" Relationship="AOnlineClassModel.FK_M_MessageBoard_M_PostType" FromRole="M_MessageBoard" ToRole="M_PostType" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_M_MessageBoard_U_User" FromRole="M_MessageBoard" ToRole="U_User" />
+          <NavigationProperty Name="M_ReMessageBoard" Relationship="AOnlineClassModel.FK_M_ReMessageBoard_M_MessageBoard" FromRole="M_MessageBoard" ToRole="M_ReMessageBoard" />
+          <NavigationProperty Name="M_Report" Relationship="AOnlineClassModel.FK_M_Report_M_MessageBoard" FromRole="M_MessageBoard" ToRole="M_Report" />
+        </EntityType>
+        <EntityType Name="M_PostType">
+          <Key>
+            <PropertyRef Name="PostTypeID" />
+          </Key>
+          <Property Name="PostTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PostTypeName" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="M_MessageBoard" Relationship="AOnlineClassModel.FK_M_MessageBoard_M_PostType" FromRole="M_PostType" ToRole="M_MessageBoard" />
+        </EntityType>
+        <EntityType Name="M_ReMessageBoard">
+          <Key>
+            <PropertyRef Name="ReMessageBoardID" />
+          </Key>
+          <Property Name="ReMessageBoardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReMessageBoardContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="RePostTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="MessageBoardID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="M_MessageBoard" Relationship="AOnlineClassModel.FK_M_ReMessageBoard_M_MessageBoard" FromRole="M_ReMessageBoard" ToRole="M_MessageBoard" />
+          <NavigationProperty Name="M_Report" Relationship="AOnlineClassModel.FK_M_Report_M_ReMessageBoard" FromRole="M_ReMessageBoard" ToRole="M_Report" />
+        </EntityType>
+        <EntityType Name="M_Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SolDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SolutionTypeID" Type="Int32" Nullable="false" />
+          <Property Name="MessageBoardID" Type="Int32" />
+          <Property Name="ReMessageBoardID" Type="Int32" />
+          <Property Name="ReportUserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="M_MessageBoard" Relationship="AOnlineClassModel.FK_M_Report_M_MessageBoard" FromRole="M_Report" ToRole="M_MessageBoard" />
+          <NavigationProperty Name="M_ReMessageBoard" Relationship="AOnlineClassModel.FK_M_Report_M_ReMessageBoard" FromRole="M_Report" ToRole="M_ReMessageBoard" />
+          <NavigationProperty Name="M_SolutionType" Relationship="AOnlineClassModel.FK_M_Report_M_SolutionType" FromRole="M_Report" ToRole="M_SolutionType" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_M_Report_U_User" FromRole="M_Report" ToRole="U_User" />
+        </EntityType>
+        <EntityType Name="M_SolutionType">
+          <Key>
+            <PropertyRef Name="SolutionTypeID" />
+          </Key>
+          <Property Name="SolutionTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SolutionTypeName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="M_Report" Relationship="AOnlineClassModel.FK_M_Report_M_SolutionType" FromRole="M_SolutionType" ToRole="M_Report" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="U_Permission">
+          <Key>
+            <PropertyRef Name="PermissionID" />
+          </Key>
+          <Property Name="PermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PermissionTypeName" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_U_User_U_Permission" FromRole="U_Permission" ToRole="U_User" />
+        </EntityType>
+        <EntityType Name="U_Skill">
+          <Key>
+            <PropertyRef Name="SkillID" />
+          </Key>
+          <Property Name="SkillID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SkillName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SkillTypeID" Type="Int32" />
+          <NavigationProperty Name="U_SkillType" Relationship="AOnlineClassModel.FK_U_Skill_U_SkillType" FromRole="U_Skill" ToRole="U_SkillType" />
+          <NavigationProperty Name="U_UserSkill" Relationship="AOnlineClassModel.FK_U_UserSkill_U_Skill" FromRole="U_Skill" ToRole="U_UserSkill" />
+        </EntityType>
+        <EntityType Name="U_SkillType">
+          <Key>
+            <PropertyRef Name="SkillTypeID" />
+          </Key>
+          <Property Name="SkillTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SkillTypeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryID" Type="Int32" />
+          <NavigationProperty Name="U_Skill" Relationship="AOnlineClassModel.FK_U_Skill_U_SkillType" FromRole="U_SkillType" ToRole="U_Skill" />
+          <NavigationProperty Name="U_SkillTypeCategory" Relationship="AOnlineClassModel.FK_U_SkillType_U_SkillTypeCategory" FromRole="U_SkillType" ToRole="U_SkillTypeCategory" />
+        </EntityType>
+        <EntityType Name="U_SkillTypeCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="U_SkillType" Relationship="AOnlineClassModel.FK_U_SkillType_U_SkillTypeCategory" FromRole="U_SkillTypeCategory" ToRole="U_SkillType" />
+        </EntityType>
+        <EntityType Name="U_SmallBell">
+          <Key>
+            <PropertyRef Name="BellID" />
+          </Key>
+          <Property Name="BellID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClassID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="NoticeContent" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="StatusTypeID" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ReadYN" Type="Boolean" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_U_SmallBell_C_Class" FromRole="U_SmallBell" ToRole="C_Class" />
+          <NavigationProperty Name="U_StatusType" Relationship="AOnlineClassModel.FK_U_SmallBell_U_StatusType" FromRole="U_SmallBell" ToRole="U_StatusType" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_U_SmallBell_U_User" FromRole="U_SmallBell" ToRole="U_User" />
+        </EntityType>
+        <EntityType Name="U_StatusType">
+          <Key>
+            <PropertyRef Name="StatusTypeID" />
+          </Key>
+          <Property Name="StatusTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StatusContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="U_SmallBell" Relationship="AOnlineClassModel.FK_U_SmallBell_U_StatusType" FromRole="U_StatusType" ToRole="U_SmallBell" />
+        </EntityType>
+        <EntityType Name="U_User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserAccount" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UserPassword" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UserPhoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Birth" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PermissionID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="B_Order" Relationship="AOnlineClassModel.FK_B_Order_U_User" FromRole="U_User" ToRole="B_Order" />
+          <NavigationProperty Name="B_ShoppingCar" Relationship="AOnlineClassModel.FK_B_ShoppingCar_U_User" FromRole="U_User" ToRole="B_ShoppingCar" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_C_Class_U_User" FromRole="U_User" ToRole="C_Class" />
+          <NavigationProperty Name="C_LessonCheckTime" Relationship="AOnlineClassModel.FK_C_LessonCheckTime_U_User" FromRole="U_User" ToRole="C_LessonCheckTime" />
+          <NavigationProperty Name="M_MessageBoard" Relationship="AOnlineClassModel.FK_M_MessageBoard_U_User" FromRole="U_User" ToRole="M_MessageBoard" />
+          <NavigationProperty Name="M_Report" Relationship="AOnlineClassModel.FK_M_Report_U_User" FromRole="U_User" ToRole="M_Report" />
+          <NavigationProperty Name="U_Permission" Relationship="AOnlineClassModel.FK_U_User_U_Permission" FromRole="U_User" ToRole="U_Permission" />
+          <NavigationProperty Name="U_SmallBell" Relationship="AOnlineClassModel.FK_U_SmallBell_U_User" FromRole="U_User" ToRole="U_SmallBell" />
+          <NavigationProperty Name="U_UserSkill" Relationship="AOnlineClassModel.FK_U_UserSkill_U_User" FromRole="U_User" ToRole="U_UserSkill" />
+          <NavigationProperty Name="UC_Follow" Relationship="AOnlineClassModel.FK_UC_Follow_U_User" FromRole="U_User" ToRole="UC_Follow" />
+          <NavigationProperty Name="UC_Score" Relationship="AOnlineClassModel.FK_UC_Score_U_User" FromRole="U_User" ToRole="UC_Score" />
+        </EntityType>
+        <EntityType Name="U_UserSkill">
+          <Key>
+            <PropertyRef Name="UserSkillID" />
+          </Key>
+          <Property Name="UserSkillID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="SkillID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="U_Skill" Relationship="AOnlineClassModel.FK_U_UserSkill_U_Skill" FromRole="U_UserSkill" ToRole="U_Skill" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_U_UserSkill_U_User" FromRole="U_UserSkill" ToRole="U_User" />
+        </EntityType>
+        <EntityType Name="UC_Follow">
+          <Key>
+            <PropertyRef Name="FollowID" />
+          </Key>
+          <Property Name="FollowID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_UC_Follow_C_Class" FromRole="UC_Follow" ToRole="C_Class" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_UC_Follow_U_User" FromRole="UC_Follow" ToRole="U_User" />
+        </EntityType>
+        <EntityType Name="UC_Score">
+          <Key>
+            <PropertyRef Name="ScoreID" />
+          </Key>
+          <Property Name="ScoreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="ScoreContent" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="ClassID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="C_Class" Relationship="AOnlineClassModel.FK_UC_Score_C_Class" FromRole="UC_Score" ToRole="C_Class" />
+          <NavigationProperty Name="U_User" Relationship="AOnlineClassModel.FK_UC_Score_U_User" FromRole="UC_Score" ToRole="U_User" />
+        </EntityType>
+        <Association Name="FK_B_Order_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.B_Order" Role="B_Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="B_Order">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_OrderDetail_B_Order">
+          <End Type="AOnlineClassModel.B_Order" Role="B_Order" Multiplicity="1" />
+          <End Type="AOnlineClassModel.B_OrderDetail" Role="B_OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="B_Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="B_OrderDetail">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_OrderDetail_C_Class">
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="1" />
+          <End Type="AOnlineClassModel.B_OrderDetail" Role="B_OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="B_OrderDetail">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_ShoppingCar_C_Class">
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="1" />
+          <End Type="AOnlineClassModel.B_ShoppingCar" Role="B_ShoppingCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="B_ShoppingCar">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_B_ShoppingCar_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.B_ShoppingCar" Role="B_ShoppingCar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="B_ShoppingCar">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Class_C_ClassType">
+          <End Type="AOnlineClassModel.C_ClassType" Role="C_ClassType" Multiplicity="1" />
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_ClassType">
+              <PropertyRef Name="ClassTypeID" />
+            </Principal>
+            <Dependent Role="C_Class">
+              <PropertyRef Name="ClassTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Class_C_CreateType">
+          <End Type="AOnlineClassModel.C_CreateType" Role="C_CreateType" Multiplicity="1" />
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_CreateType">
+              <PropertyRef Name="CreateTypeID" />
+            </Principal>
+            <Dependent Role="C_Class">
+              <PropertyRef Name="CreateTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Class_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="C_Class">
+              <PropertyRef Name="CreateUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_Lesson_C_Class">
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="1" />
+          <End Type="AOnlineClassModel.C_Lesson" Role="C_Lesson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="C_Lesson">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_C_Class">
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.M_MessageBoard" Role="M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SmallBell_C_Class">
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.U_SmallBell" Role="U_SmallBell" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="U_SmallBell">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Follow_C_Class">
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="1" />
+          <End Type="AOnlineClassModel.UC_Follow" Role="UC_Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="UC_Follow">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Score_C_Class">
+          <End Type="AOnlineClassModel.C_Class" Role="C_Class" Multiplicity="1" />
+          <End Type="AOnlineClassModel.UC_Score" Role="UC_Score" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Class">
+              <PropertyRef Name="ClassID" />
+            </Principal>
+            <Dependent Role="UC_Score">
+              <PropertyRef Name="ClassID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_LessonCheckTime_C_Lesson">
+          <End Type="AOnlineClassModel.C_Lesson" Role="C_Lesson" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.C_LessonCheckTime" Role="C_LessonCheckTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Lesson">
+              <PropertyRef Name="LessonID" />
+            </Principal>
+            <Dependent Role="C_LessonCheckTime">
+              <PropertyRef Name="LessonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_C_Lesson">
+          <End Type="AOnlineClassModel.C_Lesson" Role="C_Lesson" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.M_MessageBoard" Role="M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Lesson">
+              <PropertyRef Name="LessonID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="LessonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_C_LessonCheckTime_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.C_LessonCheckTime" Role="C_LessonCheckTime" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="C_LessonCheckTime">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_M_PostType">
+          <End Type="AOnlineClassModel.M_PostType" Role="M_PostType" Multiplicity="1" />
+          <End Type="AOnlineClassModel.M_MessageBoard" Role="M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_PostType">
+              <PropertyRef Name="PostTypeID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="PostTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_MessageBoard_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.M_MessageBoard" Role="M_MessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="M_MessageBoard">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_ReMessageBoard_M_MessageBoard">
+          <End Type="AOnlineClassModel.M_MessageBoard" Role="M_MessageBoard" Multiplicity="1" />
+          <End Type="AOnlineClassModel.M_ReMessageBoard" Role="M_ReMessageBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_MessageBoard">
+              <PropertyRef Name="MessageBoardID" />
+            </Principal>
+            <Dependent Role="M_ReMessageBoard">
+              <PropertyRef Name="MessageBoardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_M_MessageBoard">
+          <End Type="AOnlineClassModel.M_MessageBoard" Role="M_MessageBoard" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.M_Report" Role="M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_MessageBoard">
+              <PropertyRef Name="MessageBoardID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="MessageBoardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_M_ReMessageBoard">
+          <End Type="AOnlineClassModel.M_ReMessageBoard" Role="M_ReMessageBoard" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.M_Report" Role="M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_ReMessageBoard">
+              <PropertyRef Name="ReMessageBoardID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="ReMessageBoardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_M_SolutionType">
+          <End Type="AOnlineClassModel.M_SolutionType" Role="M_SolutionType" Multiplicity="1" />
+          <End Type="AOnlineClassModel.M_Report" Role="M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="M_SolutionType">
+              <PropertyRef Name="SolutionTypeID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="SolutionTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_M_Report_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.M_Report" Role="M_Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="M_Report">
+              <PropertyRef Name="ReportUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_User_U_Permission">
+          <End Type="AOnlineClassModel.U_Permission" Role="U_Permission" Multiplicity="1" />
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_Permission">
+              <PropertyRef Name="PermissionID" />
+            </Principal>
+            <Dependent Role="U_User">
+              <PropertyRef Name="PermissionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_Skill_U_SkillType">
+          <End Type="AOnlineClassModel.U_SkillType" Role="U_SkillType" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.U_Skill" Role="U_Skill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_SkillType">
+              <PropertyRef Name="SkillTypeID" />
+            </Principal>
+            <Dependent Role="U_Skill">
+              <PropertyRef Name="SkillTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_UserSkill_U_Skill">
+          <End Type="AOnlineClassModel.U_Skill" Role="U_Skill" Multiplicity="1" />
+          <End Type="AOnlineClassModel.U_UserSkill" Role="U_UserSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_Skill">
+              <PropertyRef Name="SkillID" />
+            </Principal>
+            <Dependent Role="U_UserSkill">
+              <PropertyRef Name="SkillID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SkillType_U_SkillTypeCategory">
+          <End Type="AOnlineClassModel.U_SkillTypeCategory" Role="U_SkillTypeCategory" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.U_SkillType" Role="U_SkillType" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_SkillTypeCategory">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="U_SkillType">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SmallBell_U_StatusType">
+          <End Type="AOnlineClassModel.U_StatusType" Role="U_StatusType" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.U_SmallBell" Role="U_SmallBell" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_StatusType">
+              <PropertyRef Name="StatusTypeID" />
+            </Principal>
+            <Dependent Role="U_SmallBell">
+              <PropertyRef Name="StatusTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_SmallBell_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="0..1" />
+          <End Type="AOnlineClassModel.U_SmallBell" Role="U_SmallBell" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="U_SmallBell">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_U_UserSkill_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.U_UserSkill" Role="U_UserSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="U_UserSkill">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Follow_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.UC_Follow" Role="UC_Follow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UC_Follow">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UC_Score_U_User">
+          <End Type="AOnlineClassModel.U_User" Role="U_User" Multiplicity="1" />
+          <End Type="AOnlineClassModel.UC_Score" Role="UC_Score" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="U_User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="UC_Score">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AOnlineClassModelStoreContainer" CdmEntityContainer="AOnlineClassEntities">
+          <EntitySetMapping Name="B_Order">
+            <EntityTypeMapping TypeName="AOnlineClassModel.B_Order">
+              <MappingFragment StoreEntitySet="B_Order">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BuyTime" ColumnName="BuyTime" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_OrderDetail">
+            <EntityTypeMapping TypeName="AOnlineClassModel.B_OrderDetail">
+              <MappingFragment StoreEntitySet="B_OrderDetail">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="B_ShoppingCar">
+            <EntityTypeMapping TypeName="AOnlineClassModel.B_ShoppingCar">
+              <MappingFragment StoreEntitySet="B_ShoppingCar">
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BuyTime" ColumnName="BuyTime" />
+                <ScalarProperty Name="ConfirmBuy" ColumnName="ConfirmBuy" />
+                <ScalarProperty Name="ShoppingCarID" ColumnName="ShoppingCarID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Class">
+            <EntityTypeMapping TypeName="AOnlineClassModel.C_Class">
+              <MappingFragment StoreEntitySet="C_Class">
+                <ScalarProperty Name="ClassTypeID" ColumnName="ClassTypeID" />
+                <ScalarProperty Name="CreateTypeID" ColumnName="CreateTypeID" />
+                <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+                <ScalarProperty Name="NeedUser" ColumnName="NeedUser" />
+                <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
+                <ScalarProperty Name="PreRegisterTime" ColumnName="PreRegisterTime" />
+                <ScalarProperty Name="UpLoadTime" ColumnName="UpLoadTime" />
+                <ScalarProperty Name="ClassContent" ColumnName="ClassContent" />
+                <ScalarProperty Name="MainPicture" ColumnName="MainPicture" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_ClassType">
+            <EntityTypeMapping TypeName="AOnlineClassModel.C_ClassType">
+              <MappingFragment StoreEntitySet="C_ClassType">
+                <ScalarProperty Name="ClassTypeName" ColumnName="ClassTypeName" />
+                <ScalarProperty Name="ClassTypeID" ColumnName="ClassTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_CreateType">
+            <EntityTypeMapping TypeName="AOnlineClassModel.C_CreateType">
+              <MappingFragment StoreEntitySet="C_CreateType">
+                <ScalarProperty Name="CreateTypeName" ColumnName="CreateTypeName" />
+                <ScalarProperty Name="CreateTypeID" ColumnName="CreateTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Lesson">
+            <EntityTypeMapping TypeName="AOnlineClassModel.C_Lesson">
+              <MappingFragment StoreEntitySet="C_Lesson">
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="LessonContent" ColumnName="LessonContent" />
+                <ScalarProperty Name="LessonVideo" ColumnName="LessonVideo" />
+                <ScalarProperty Name="LessonName" ColumnName="LessonName" />
+                <ScalarProperty Name="LessonID" ColumnName="LessonID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_LessonCheckTime">
+            <EntityTypeMapping TypeName="AOnlineClassModel.C_LessonCheckTime">
+              <MappingFragment StoreEntitySet="C_LessonCheckTime">
+                <ScalarProperty Name="LessonID" ColumnName="LessonID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LessonTimeCheck" ColumnName="LessonTimeCheck" />
+                <ScalarProperty Name="LessonTime" ColumnName="LessonTime" />
+                <ScalarProperty Name="LessonTimeCheckID" ColumnName="LessonTimeCheckID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="M_MessageBoard">
+            <EntityTypeMapping TypeName="AOnlineClassModel.M_MessageBoard">
+              <MappingFragment StoreEntitySet="M_MessageBoard">
+                <ScalarProperty Name="PostTypeID" ColumnName="PostTypeID" />
+                <ScalarProperty Name="LessonID" ColumnName="LessonID" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+                <ScalarProperty Name="MessageBoardContent" ColumnName="MessageBoardContent" />
+                <ScalarProperty Name="MessageBoardID" ColumnName="MessageBoardID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="M_PostType">
+            <EntityTypeMapping TypeName="AOnlineClassModel.M_PostType">
+              <MappingFragment StoreEntitySet="M_PostType">
+                <ScalarProperty Name="PostTypeName" ColumnName="PostTypeName" />
+                <ScalarProperty Name="PostTypeID" ColumnName="PostTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="M_ReMessageBoard">
+            <EntityTypeMapping TypeName="AOnlineClassModel.M_ReMessageBoard">
+              <MappingFragment StoreEntitySet="M_ReMessageBoard">
+                <ScalarProperty Name="MessageBoardID" ColumnName="MessageBoardID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="RePostTime" ColumnName="RePostTime" />
+                <ScalarProperty Name="ReMessageBoardContent" ColumnName="ReMessageBoardContent" />
+                <ScalarProperty Name="ReMessageBoardID" ColumnName="ReMessageBoardID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="M_Report">
+            <EntityTypeMapping TypeName="AOnlineClassModel.M_Report">
+              <MappingFragment StoreEntitySet="M_Report">
+                <ScalarProperty Name="ReportUserID" ColumnName="ReportUserID" />
+                <ScalarProperty Name="ReMessageBoardID" ColumnName="ReMessageBoardID" />
+                <ScalarProperty Name="MessageBoardID" ColumnName="MessageBoardID" />
+                <ScalarProperty Name="SolutionTypeID" ColumnName="SolutionTypeID" />
+                <ScalarProperty Name="SolDate" ColumnName="SolDate" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="ReportContent" ColumnName="ReportContent" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="M_SolutionType">
+            <EntityTypeMapping TypeName="AOnlineClassModel.M_SolutionType">
+              <MappingFragment StoreEntitySet="M_SolutionType">
+                <ScalarProperty Name="SolutionTypeName" ColumnName="SolutionTypeName" />
+                <ScalarProperty Name="SolutionTypeID" ColumnName="SolutionTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AOnlineClassModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_Permission">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_Permission">
+              <MappingFragment StoreEntitySet="U_Permission">
+                <ScalarProperty Name="PermissionTypeName" ColumnName="PermissionTypeName" />
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_Skill">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_Skill">
+              <MappingFragment StoreEntitySet="U_Skill">
+                <ScalarProperty Name="SkillTypeID" ColumnName="SkillTypeID" />
+                <ScalarProperty Name="SkillName" ColumnName="SkillName" />
+                <ScalarProperty Name="SkillID" ColumnName="SkillID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_SkillType">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_SkillType">
+              <MappingFragment StoreEntitySet="U_SkillType">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="SkillTypeName" ColumnName="SkillTypeName" />
+                <ScalarProperty Name="SkillTypeID" ColumnName="SkillTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_SkillTypeCategory">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_SkillTypeCategory">
+              <MappingFragment StoreEntitySet="U_SkillTypeCategory">
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_SmallBell">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_SmallBell">
+              <MappingFragment StoreEntitySet="U_SmallBell">
+                <ScalarProperty Name="ReadYN" ColumnName="ReadYN" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+                <ScalarProperty Name="NoticeContent" ColumnName="NoticeContent" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="BellID" ColumnName="BellID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_StatusType">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_StatusType">
+              <MappingFragment StoreEntitySet="U_StatusType">
+                <ScalarProperty Name="StatusContent" ColumnName="StatusContent" />
+                <ScalarProperty Name="StatusTypeID" ColumnName="StatusTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_User">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_User">
+              <MappingFragment StoreEntitySet="U_User">
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Birth" ColumnName="Birth" />
+                <ScalarProperty Name="UserPhoto" ColumnName="UserPhoto" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="U_UserSkill">
+            <EntityTypeMapping TypeName="AOnlineClassModel.U_UserSkill">
+              <MappingFragment StoreEntitySet="U_UserSkill">
+                <ScalarProperty Name="SkillID" ColumnName="SkillID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserSkillID" ColumnName="UserSkillID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UC_Follow">
+            <EntityTypeMapping TypeName="AOnlineClassModel.UC_Follow">
+              <MappingFragment StoreEntitySet="UC_Follow">
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FollowID" ColumnName="FollowID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UC_Score">
+            <EntityTypeMapping TypeName="AOnlineClassModel.UC_Score">
+              <MappingFragment StoreEntitySet="UC_Score">
+                <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ScoreContent" ColumnName="ScoreContent" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="ScoreID" ColumnName="ScoreID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

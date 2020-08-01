@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1684795176c64891aeee2421f294958f" Name="Diagram1">
+        <EntityTypeShape EntityType="AOnlineClassModel.B_Order" Width="1.5" PointX="5.25" PointY="24.875" />
+        <EntityTypeShape EntityType="AOnlineClassModel.B_OrderDetail" Width="1.5" PointX="10.5" PointY="17.5" />
+        <EntityTypeShape EntityType="AOnlineClassModel.B_ShoppingCar" Width="1.5" PointX="5.25" PointY="10.125" />
+        <EntityTypeShape EntityType="AOnlineClassModel.C_Class" Width="1.5" PointX="8.25" PointY="11.75" />
+        <EntityTypeShape EntityType="AOnlineClassModel.C_ClassType" Width="1.5" PointX="6" PointY="16.375" />
+        <EntityTypeShape EntityType="AOnlineClassModel.C_CreateType" Width="1.5" PointX="6" PointY="18.625" />
+        <EntityTypeShape EntityType="AOnlineClassModel.C_Lesson" Width="1.5" PointX="10.5" PointY="22.375" />
+        <EntityTypeShape EntityType="AOnlineClassModel.C_LessonCheckTime" Width="1.5" PointX="12.75" PointY="17.125" />
+        <EntityTypeShape EntityType="AOnlineClassModel.M_MessageBoard" Width="1.5" PointX="15.75" PointY="16.5" />
+        <EntityTypeShape EntityType="AOnlineClassModel.M_PostType" Width="1.5" PointX="13.5" PointY="20.5" />
+        <EntityTypeShape EntityType="AOnlineClassModel.M_ReMessageBoard" Width="1.5" PointX="18" PointY="17" />
+        <EntityTypeShape EntityType="AOnlineClassModel.M_Report" Width="1.5" PointX="20.25" PointY="14.25" />
+        <EntityTypeShape EntityType="AOnlineClassModel.M_SolutionType" Width="1.5" PointX="18" PointY="14.125" />
+        <EntityTypeShape EntityType="AOnlineClassModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_Permission" Width="1.5" PointX="0.75" PointY="13.5" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_Skill" Width="1.5" PointX="3" PointY="8.375" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_SkillType" Width="1.5" PointX="0.75" PointY="8.375" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_SkillTypeCategory" Width="1.5" PointX="1.5" PointY="5.5" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_SmallBell" Width="1.5" PointX="13.5" PointY="12.875" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_StatusType" Width="1.5" PointX="11.25" PointY="7.5" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_User" Width="1.5" PointX="3" PointY="11.625" />
+        <EntityTypeShape EntityType="AOnlineClassModel.U_UserSkill" Width="1.5" PointX="5.25" PointY="13.375" />
+        <EntityTypeShape EntityType="AOnlineClassModel.UC_Follow" Width="1.5" PointX="10.5" PointY="13.375" />
+        <EntityTypeShape EntityType="AOnlineClassModel.UC_Score" Width="1.5" PointX="10.5" PointY="10.125" />
+        <AssociationConnector Association="AOnlineClassModel.FK_B_Order_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_B_OrderDetail_B_Order" />
+        <AssociationConnector Association="AOnlineClassModel.FK_B_OrderDetail_C_Class" />
+        <AssociationConnector Association="AOnlineClassModel.FK_B_ShoppingCar_C_Class" />
+        <AssociationConnector Association="AOnlineClassModel.FK_B_ShoppingCar_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_C_Class_C_ClassType" />
+        <AssociationConnector Association="AOnlineClassModel.FK_C_Class_C_CreateType" />
+        <AssociationConnector Association="AOnlineClassModel.FK_C_Class_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_C_Lesson_C_Class" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_MessageBoard_C_Class" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_SmallBell_C_Class" />
+        <AssociationConnector Association="AOnlineClassModel.FK_UC_Follow_C_Class" />
+        <AssociationConnector Association="AOnlineClassModel.FK_UC_Score_C_Class" />
+        <AssociationConnector Association="AOnlineClassModel.FK_C_LessonCheckTime_C_Lesson" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_MessageBoard_C_Lesson" />
+        <AssociationConnector Association="AOnlineClassModel.FK_C_LessonCheckTime_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_MessageBoard_M_PostType" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_MessageBoard_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_ReMessageBoard_M_MessageBoard" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_Report_M_MessageBoard" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_Report_M_ReMessageBoard" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_Report_M_SolutionType" />
+        <AssociationConnector Association="AOnlineClassModel.FK_M_Report_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_User_U_Permission" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_Skill_U_SkillType" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_UserSkill_U_Skill" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_SkillType_U_SkillTypeCategory" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_SmallBell_U_StatusType" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_SmallBell_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_U_UserSkill_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_UC_Follow_U_User" />
+        <AssociationConnector Association="AOnlineClassModel.FK_UC_Score_U_User" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

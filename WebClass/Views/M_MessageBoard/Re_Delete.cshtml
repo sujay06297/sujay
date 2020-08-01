@@ -1,0 +1,43 @@
+﻿@model WebClass.Models.M_ReMessageBoard
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="modal-header modal-header-primary">
+    <button type="button" class="close" aria-label="Close" data-dismiss="modal">&times;</button>
+
+</div>
+<div class="modal-body">
+    <hr />
+    <h3>確定要刪除此回覆??</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ReMessageBoardContent)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ReMessageBoardContent)
+            </dd>
+
+            <dt>
+                帳戶
+            </dt>
+
+            <dd>
+                @HttpUtility.UrlDecode(Request.Cookies["account"].Value, System.Text.Encoding.GetEncoding("UTF-8"))
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="刪除" class="btn btn-outline-danger" />
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@model WebClass.Models.U_SmallBell
+
+
+
+@{
+    ViewBag.Title = "課程推廣";
+}
+
+<div class="m-5">
+
+    <div class="container">
+        @{
+            var class_ = new SelectList(ViewBag.Class, "ClassID", "ClassName");
+        }
+        <div>
+            @Html.DropDownListFor(c => Model.C_Class.ClassID, class_, "請選擇", new { @Class = "form-control bellclass" })
+        </div>
+        <br />
+        <div>
+            @Html.TextAreaFor(c => c.NoticeContent, 5, 500, new { @class = "belltext" })
+        </div>
+        <input type="button" id="send" value="送出" />
+    </div>
+</div>
+
+<div class="container">
+    <input type="button" id="recommendation" value="送出" />
+</div>
+
+
+

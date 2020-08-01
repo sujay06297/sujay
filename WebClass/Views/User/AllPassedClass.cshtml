@@ -1,0 +1,82 @@
+﻿@model  IEnumerable<WebClass.Models.C_Class>
+
+@{
+    ViewBag.Title = "AllPassedClass";
+}
+<link href="~/Content/jquery.dynatable.css" rel="stylesheet" />
+@*table自動排序用*@
+<link href="~/Content/coreui.min.css" rel="stylesheet" />
+@*PagedList用*@
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@*網狀背景*@
+@Html.Partial("ParticlesView")
+
+
+<div>
+    <div>
+        <div style="margin-top:3%;margin-left:3%;margin-right:3%;margin-bottom:10%">
+            @*<h1>審查通過課程</h1>*@
+            <div class="container-fluid">
+                <div class="row">
+                    @Html.Partial("NavigationBarView")
+
+                    <div class="col-xl-10  p-0 " style="border-radius:5px;">
+                        <h1>審查合格課程</h1>
+                        <table id="text-transform-example" class="table table-bordered text-xl-center">
+                            <thead>
+                                <tr style="background-color:#20a8d8">
+                                    @* <th>課程編號</th>*@
+                                    <th style="width:30%;">課程名稱</th>
+                                    <th>正式上課日期</th>
+                                    <th>申請日期</th>
+                                    <th>申請人資訊</th>
+                                    <th style="width:12%;">審查人資訊</th>
+                                    <th style="width:14%;">審查狀態</th>
+                                    <th style="width:12%;">課程介紹</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        @* <td style="width:90px;">@item.ClassID</td>*@
+                                        <td>@item.ClassName</td>
+                                        <td>@item.RegisterTime.ToShortDateString()</td>
+                                        <td>@item.UpLoadTime.ToString()</td>
+                                        <td><a href="~/User/ApplicantInfo/@item.ClassID" class="btn btn-info text-white">@item.U_User.UserAccount</a></td>
+                                        <td>@ViewBag.Editor</td>
+                                        <td><div class="alert alert-success text-center" role="alert">@item.C_CreateType.CreateTypeName</div></td>
+                                        <td><a href="~/User/ClassInfoOnly/@item.ClassID" class="btn btn-primary">課程內容</a></td>
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+                        <br />
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@*table自動排序用*@
+<script src="~/Scripts/jquery.dynatable.js"></script>
+<script src="~/Scripts/coreui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#text-transform-example').dynatable();
+    });
+
+</script>
+
+
+
+

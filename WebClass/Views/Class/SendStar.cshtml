@@ -1,0 +1,166 @@
+﻿@model WebClass.Models.UC_Score
+<style>
+    .popup {
+        margin: 70px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 5px;
+        width: 30%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup .close {
+            position: absolute;
+            transition: all 200ms;
+            font-weight: bold;
+            text-decoration: none;
+            color: aliceblue;
+            width: 90%;
+            padding-left: 5%;
+            padding-right: 5%;
+        }
+
+            .popup .close:hover {
+                color: #06D85F;
+            }
+
+    .n {
+        filter: grayscale(1);
+    }
+
+    .s {
+        filter: grayscale(0);
+    }
+</style>
+
+
+<div id="popup2" class="overlay">
+
+
+    <div class="row" style="margin-bottom:30px;margin-top:30px;padding-top:10%;">
+
+        <div class="col-3"></div>
+        <div class="col-6" style="background-color:lightgray;padding:0;margin:0;">
+            <div style="height:20%;background-color:dimgrey"><p>新增評論</p></div>
+
+            @using (Html.BeginForm("SendStar", "Class", FormMethod.Post, new { id = "starform" })) 
+            {
+            <input name="ClassID" id="ClassID" type="hidden" value="@ViewBag.ClassID" />
+            <input name="UserID" id="UserID" type="hidden" value="@ViewBag.UID" />
+
+            <input name="Score" id="Score" type="hidden" />
+            <div id="divTop" style="margin-top:10px;margin-left:30px;"></div>
+            @Html.TextAreaFor(c => c.ScoreContent, 4, 50, new { @class = "mytext ml-4", maxlength = "200" })
+            <div class="row" style="margin-bottom:10px;margin-left:5%;margin-right:5%">
+                <div class="col-6" style="padding:0">
+                    <h6 style="color:mediumvioletred;margin-bottom:10px;">*最大字數為200字</h6>
+                </div>
+                <div class="col-6" style="padding:0">
+                    <div style="float:right;margin-bottom:5%;">
+                        <a  id="submit" class="btn btn-primary sentstar">幫課程評分</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">等等再說</button>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+        <div class="col-3" style="padding:0;"></div>
+    </div>
+
+</div>
+
+<script>
+
+    var starnum = 0;
+    var starArray = [];
+
+    function mouseIn() {
+        for (let i = starnum; i <= this.id.substr(4); i++) {
+            //this.id[數字]是指讀到這個字串的第幾個字元
+            starArray[i].className = "s";
+            document.getElementById("Second").innerText = `評分為${i + 1}分`
+        }
+    };
+
+    //滑鼠離開
+    function mouseOut() {
+        for (let i = starnum; i <= this.id.substr(4); i++) {
+            starArray[i].className = "n";
+        }
+        document.getElementById("Second").innerText = `評分為${starnum}分`
+    };
+
+    //滑鼠點擊
+    function mouseClick() {
+        if (starnum - 1 == this.id.substr(4)) {
+            for (let i = 0; i <= this.id.substr(4); i++) {
+                //如果點到的格子跟上次點的相同，則會全部註冊事件，讓格子都變回無色
+                document.getElementById(starArray[i].id).addEventListener("mouseover", mouseIn);
+                document.getElementById(starArray[i].id).addEventListener("mouseout", mouseOut);
+            }
+
+            document.getElementById("Second").innerText = `評分為${starnum}分`
+            starnum = 0;
+        }
+        else {
+            for (let i = 0; i <= starArray.length - 1; i++) {
+                //取消註冊，點到那格之前的格子會取消註冊事件，並且顏色變成彩色
+                document.getElementById(starArray[i].id).removeEventListener("mouseover", mouseIn);
+                document.getElementById(starArray[i].id).removeEventListener("mouseout", mouseOut);
+                starArray[i].className = "s";
+            }
+            starnum = Number(this.id.substr(4)) + 1;//字串轉數字相加
+            document.getElementById("Second").innerText = `評分為${starnum}分`
+            for (let i = starnum; i <= starArray.length - 1; i++) {
+                //點到那格之後的格子會重新再註冊事件，然後把顏色轉空，這時候會使用原本的方案，滑到哪亮到哪
+                document.getElementById(starArray[i].id).addEventListener("mouseover", mouseIn);
+                document.getElementById(starArray[i].id).addEventListener("mouseout", mouseOut);
+                starArray[i].className = "n";
+            }
+        }
+    };
+
+    $(document).ready(function () {
+        //var starnew = '/images/Star.png'
+        var starnew = '/ContosoUniversity/images/Star.png'
+
+        for (let x = 0; x <= 4; x++) {
+            $("#divTop").append(`<img class="n" onerror="this.src='/images/Star.png'"  id="Star${x}" src="../../images/Star.png"/>`);
+                starArray[x] = document.getElementById(`Star${x}`);
+        }
+            $('#divTop').append($(`<span id="Second" style="margin-right:5%;float:right;">目前尚未評分</span>`))
+        });
+
+    $(document).ready(function () {
+            for (let star of starArray) {
+                document.getElementById(star.id).addEventListener("mouseover", mouseIn);
+                document.getElementById(star.id).addEventListener("mouseout", mouseOut);
+                document.getElementById(star.id).addEventListener("click", mouseClick);
+            }
+        });
+
+    $('.sentstar').on("click",function () {
+        document.getElementById("Score").value = starnum;
+
+        var allstar ={
+                UserID: $("#UserID").val(),
+                ClassID: $("#ClassID").val(),
+                ScoreContent: $("#ScoreContent").val(),
+                Score: starnum,
+            }
+
+        $.ajax({
+            type: "post",
+            url: '@Url.Action("SendStar", "Class")',
+            data: {
+                'id':@ViewBag.ClassID,
+                'score': JSON.stringify(allstar)
+            },
+            success: function () {
+
+                window.location.reload()
+            }
+        })
+        });
+</script>

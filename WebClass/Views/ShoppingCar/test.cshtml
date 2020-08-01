@@ -1,0 +1,19 @@
+﻿@model IQueryable<WebClass.Models.B_ShoppingCar>
+@{
+    Layout = null;
+}
+
+
+
+    <div>
+        <table>
+            @foreach(var s in Model)
+            {
+            <tr>
+                <td>@s.U_User.UserName</td>
+                <td>@s.C_Class.ClassName</td>
+            </tr>
+            }
+            
+        </table>
+    </div>

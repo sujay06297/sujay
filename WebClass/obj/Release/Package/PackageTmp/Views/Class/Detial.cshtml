@@ -1,0 +1,218 @@
+﻿@model WebClass.ViewModel.ClassDetailVM
+@{
+    ViewBag.Title = "課程主頁";
+}
+
+@*==========評分==========*@
+<style>
+    .star-rating {
+        display: flex;
+        align-items: center;
+        font-size: 3em;
+        margin-top: 50px;
+    }
+
+    .back-stars {
+        display: flex;
+        color: lightgray;
+        position: relative;
+        text-shadow: 4px 4px 10px gray;
+    }
+
+    .front-stars {
+        display: flex;
+        color: #FFBC0B;
+        overflow: hidden;
+        position: absolute;
+        text-shadow: 2px 2px 5px #d29b09;
+        top: 0;
+    }
+</style>
+@*==========評分==========*@
+@*==========專門給這個背景圖用的==========*@
+<style>
+        .bgopacity::after{
+        display: block;
+        position: absolute;
+        content: '';
+        width: 100%;
+        height: 100%;
+        opacity: 0.25;
+        z-index:-1;
+        background:Url(@Url.Action("GetImage", "Class", new { id = Model.ClassID }));
+        top:0;
+        background-size:cover;
+    }
+
+</style>
+@*==========專門給這個背景圖用的==========*@
+<style>
+    .blacktext {
+        color: black
+    }
+</style>
+<div>
+    <input type="hidden" id="MessageNotice" value="@Model.ClassID" />
+    @*==========課程內容==========*@
+    <div>
+        <div class="bgopacity"></div>
+        @*==========上方轉跳連結==========*@
+        <div class="section container" style="margin-top:50px">
+            <div class="course-breadcrumb">
+                <a href="~/Home/Browse" class="blacktext">所有課程</a>
+                <span class="divider"> &gt; </span>
+                <a href="~/Home/Browse/@Html.DisplayFor(c => c.ClassTypeName)" class="blacktext">@Html.DisplayFor(c => c.ClassTypeName)</a>
+                <span class="divider"> &gt; </span>
+                <a href="~/Class/Detial/@Html.DisplayFor(c=>c.ClassID)" class="blacktext">@Html.DisplayFor(c => c.ClassName)</a>
+            </div>
+            <h1 class="course-title text-center">@Html.DisplayFor(c => c.ClassName)</h1>
+        </div>
+        @*==========上方轉跳連結==========*@
+        @*==========課程單元內容(影片)==========*@
+        <div>
+            <div class="lessonpage" style=""></div>
+        </div>
+        @*==========課程單元內容(影片)==========*@
+    </div>
+    @*==========課程內容==========*@
+    <div class="container" style="margin-top:5%">
+        <div>
+            @*==========顯示評分區==========*@
+            <div>
+                <div class="star-rating" title="">
+                    <div class="back-stars">
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+
+                        <div class="front-stars" style="">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="cke_combopanel__fontsize" style="font-size:24px">(@Model.Score 分)</div>
+                </div>
+                <div>
+                    <button id="checkstar" data-toggle="modal" data-target="#exampleModal" class="btn btn-success">查看評價紀錄</button>
+                </div>
+            </div>
+            @*==========顯示評分區==========*@
+            @*==========按鈕區==========*@
+            @if (Request.Cookies["permission"] != null)
+            {
+                if (Request.Cookies["permission"].Value == "1")
+                {
+                    <div class=" float-right p-4">
+                        <input type="button" class="btn btn-light" id="ClassRecommend" value="推薦此課程" />
+                    </div>
+                }
+            }
+                    <div class=" float-right p-4">
+                        <button type="button" class="btn btn-secondary" >加入購物車</button>
+                        @*@Html.ActionLink("加入購物車", "AddToCart", "ShoppingCar", new { id = @Html.DisplayFor(c => c.ClassID) }, new { @class = "btn btn-primary" })*@
+                    </div>
+            <div class=" float-lg-right  p-4">
+                <button class="btn btn-primary">課程簡介</button>
+                @if (Request.Cookies["account"].Value != HttpUtility.UrlEncode("訪客") && Request.Cookies["UserID"] != null)
+                {
+                    if (Model.Buyer == true)
+                    {
+                        <button id="openstar" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">課程評分</button>
+                    }
+                }
+            </div>
+            @*==========按鈕區==========*@
+        </div>
+
+        <hr />
+
+        @*==========課程細部內容==========*@
+        <div>
+            @Html.Raw(Model.ClassContent)
+        </div>
+        @*==========課程細部內容==========*@
+        @*==========留言板==========*@
+        <div>
+            @Html.Action("_Index", "M_MessageBoard")
+        </div>
+        @*==========留言板==========*@
+    </div>
+</div>
+
+<!-- 額外視窗 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document"></div>
+    <div class="starbar"></div>
+</div>
+<!-- 額外視窗 -->
+
+
+
+<script>
+
+    if (location.href.indexOf("refresh=1") == -1) {
+        location.href = location.href + "?refresh=1";
+    }
+
+    $(document).ready(function () {
+        /*==========找到單元內容==========*/
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("InClass","Lesson")',
+                data: {
+                    "id":@Model.ClassID,
+                },
+                success: function (data) {
+                    $('.lessonpage').html(data)
+                }
+        })
+        /*==========找到單元內容==========*/
+        /*==========送出評分==========*/
+        $("#openstar").on("click", function () {
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("SendStar","Class")',
+                data: {
+                    "id":@Model.ClassID,
+                },
+                success: function (data) {
+                    $('.starbar').html(data)
+                }
+        })
+        })
+        /*==========送出評分==========*/
+
+        /*==========查看評分==========*/
+        $("#checkstar").on("click", function () {
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("CheckStar","Class")',
+                data: {
+                    "id":@Model.ClassID,
+                },
+                success: function (data) {
+                    $('.starbar').html(data)
+                }
+        })
+        })
+        /*==========查看評分==========*/
+
+
+        /*==========評分算式==========*/
+
+        let a=@Model.Score;
+        let b = 5;
+        let s =a / b *100 ;
+        $(".front-stars").css("width", `${s}%`)
+
+       /*==========評分算式==========*/
+
+
+    })
+
+</script>

@@ -1,0 +1,218 @@
+﻿@model IEnumerable<WebClass.Models.C_Class>
+
+<link href='https://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+
+
+<style>
+    /*==========以下三個是評分用的==========*/
+    .star-rating {
+        display: flex;
+        align-items: center;
+        font-size: 3em;
+        margin-top: 2%;
+    }
+
+    .back-stars {
+        display: flex;
+        color: lightgray;
+        position: relative;
+        text-shadow: 4px 4px 10px gray;
+    }
+
+    .front-stars {
+        display: flex;
+        color: #FFBC0B;
+        overflow: hidden;
+        position: absolute;
+        text-shadow: 2px 2px 5px #d29b09;
+        top: 0;
+    }
+    /*==========以上三個是評分用的==========*/
+    .iconmgtop {
+        margin-top: 25%;
+    }
+
+    /*==========以下彩帶用的==========*/
+    .ribbon-wrapper {
+        position: relative;
+        z-index: 1;
+        margin: 4% auto;
+    }
+
+    h1.post-title {
+        visibility: hidden;
+        width: 0;
+        height: 0;
+    }
+
+    .ribbon {
+        font-size: 16px !important;
+        width: 85%;
+        position: relative;
+        background: #efe379;
+        color: #ef4848;
+        text-align: center;
+        padding: .4em .4em;
+        margin: 0 auto
+    }
+
+        .ribbon:after,
+        .ribbon:before {
+            content: "";
+            position: absolute;
+            display: block;
+            bottom: -0.5em;
+            border: 1em solid #ecce81;
+            z-index: -1
+        }
+
+        .ribbon:before {
+            left: -1em;
+            border-right-width: 0.5em;
+            border-left-color: transparent
+        }
+
+        .ribbon:after {
+            right: -1em;
+            border-left-width: 0.5em;
+            border-right-color: transparent
+        }
+
+        .ribbon .ribbon-inner:after,
+        .ribbon .ribbon-inner:before {
+            content: "";
+            position: absolute;
+            display: block;
+            border-style: solid;
+            border-color: #B8860B transparent transparent;
+            bottom: -0.5em
+        }
+
+        .ribbon .ribbon-inner:before {
+            left: 0;
+            border-width: 0.5em 0 0 0.5em
+        }
+
+        .ribbon .ribbon-inner:after {
+            right: 0;
+            border-width: 0.5em 0.5em 0 0
+        }
+    /*==========以上彩帶用的==========*/
+</style>
+
+<div class="col">
+    <div class="row">
+        @foreach (var class_ in Model)
+        {
+            <div class="col-md-3 col-sm-4">
+                <div class="product-grid2">
+                    @*==========以下顯示圖片跟小標籤==========*@
+                    <div class="product-image2">
+                        <a href="#">
+                            <img class="pic-1" title="bytesImage" src="@Url.Action("GetImage", "Class", new {id= class_.ClassID})" />
+                        </a>
+                        <ul class="social">
+                            <li>
+                                <a onclick="AddFollow(@class_.ClassID)" href="javascript:void(0);" title="加入收藏"><i class="fa fa-heart iconmgtop"></i></a>
+                            </li>
+                            <li>
+                                <a class="update" onclick="AddToCart(@class_.ClassID)" href="javascript:void(0);" title="加入購課清單"><i class="fa fa-shopping-cart iconmgtop"></i></a>
+                            </li>
+                        </ul>
+                        <a href="~/Class/Detial/@class_.ClassID" class="add-to-cart" data-tip="Add to ShppingCart">詳細資料</a>
+                    </div>
+                    @*==========以上顯示圖片跟小標籤==========*@
+                    @*==========以下評分==========*@
+                    <div class="ml-4" style="">
+                        @if (class_.CreateTypeID == 1)
+                        {
+                            <div class="star-rating" title="">
+                                <div class="back-stars">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                                    @if (Model.Where(c => c.ClassID == class_.ClassID).Select(c => c.UC_Score.Count()).FirstOrDefault() != 0)
+                                    {
+                                        <div class="front-stars" style="width:@(Model.Where(c => c.ClassID == class_.ClassID).Select(c => c.UC_Score.Average(s => s.Score)).FirstOrDefault()*20)%">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="front-stars" style="width:0%">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="ribbon-wrapper">
+                                <h3 class="ribbon">
+                                    <strong class="ribbon-inner">~即將開課囉~</strong>
+                                </h3>
+                            </div>
+                        }
+                    </div>
+                    @*==========以上評分==========*@
+                    @*==========以下價格以及課程敘述==========*@
+                    <div class="product-content">
+                        <h2 class="title">@Html.DisplayFor(c => class_.ClassName)</h2>
+                        @if (class_.CreateTypeID == 2)
+                        {
+                            <span class="price">
+                                目前預購人數： @class_.B_OrderDetail.Where(o => o.ClassID == class_.ClassID).Select(o => o.B_Order.UserID).Count()
+                            </span>
+                            <br />
+                            <span class="price preprice" id="preprice">預購價 ：@( (class_.Price * 0.9).ToString("C0")) </span>
+                        }
+                        else
+                        {
+                            <span class="price">
+                                目前上課人數： @class_.B_OrderDetail.Where(o => o.ClassID == class_.ClassID).Select(o => o.B_Order.UserID).Count()
+                            </span>
+                            <br />
+                            <span class="price">@Html.DisplayNameFor(c => c.Price) ：@Html.DisplayFor(c => class_.Price)</span>
+                        }
+                    </div>
+                    @*==========以上價格以及課程敘述==========*@
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*==========以下換頁==========*@
+<div style="display:flex;flex-direction:row;justify-content:center;margin-top:50px;margin-bottom:50px">
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="ChangePage(1)">&nbsp;<i class="fas fa-angle-double-left"></i>&nbsp;</a></li>
+        @for (var i = 1; i <= @ViewBag.pagecount; i++)
+        {
+            <li class="page-item">
+                <a class="page-link" onclick="ChangePage(@i)" href="javascript:void(0)" ;>@i</a>
+            </li>
+        }
+        <li class="page-item"><a class="page-link" href="javascript:void(0)" onclick="ChangePage(@ViewBag.pagecount)">&nbsp;<i class="fas fa-angle-double-right"></i>&nbsp;</a></li>
+    </ul>
+</div>
+@*==========以上換頁==========*@
+
+
+<script>
+    @*==========以下加入換頁造型==========*@
+    $(".pagination").find("a").addClass("changepage");
+    @*==========以上加入換頁造型==========*@
+
+</script>

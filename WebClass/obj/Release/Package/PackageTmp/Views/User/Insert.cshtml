@@ -1,0 +1,252 @@
+﻿@model  WebClass.Models.U_User
+
+<style>
+    .form-group {
+        z-index: 10;
+    }
+
+    input {
+        position: relative;
+        z-index: 1;
+    }
+
+    #inform label {
+        font-size: larger;
+    }
+</style>
+
+<link href="~/Scripts/Club/css/simple-line-icons.css" rel="stylesheet" />
+<link href="~/Scripts/Club/background/css/style.css" rel="stylesheet" />
+
+<link href="~/Scripts/JS-Animated-Bubbles/movingbubbles.css" rel="stylesheet" />
+<script src="~/Scripts/JS-Animated-Bubbles/movingbubbles.js"></script>
+<div class="card-header" style="margin:5%; font-size:36px;text-align: center">成為新成員</div>
+<div class="card" style="margin:5% auto; max-width:500px; background-color:white;z-index:1; border:solid 1px rgba(0,0,0,.1) ;box-shadow: 0 20px 50px rgba(0,0,0,.1);">
+    <div class="card-body row" style="background-color:white; padding:10%">
+        @using (Html.BeginForm("Insert", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "inform" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @*@Html.LabelFor(u => u.UserAccount, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">輸入帳戶<span style="color:red">*</span></label>
+                        @Html.EditorFor(u => u.UserAccount, new { htmlAttributes = new { @class = "input-group-text", @id = "account" } })
+
+                        <span class="input-group-text">
+                            <i class="icon-star"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(u => u.UserAccount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.UserPassword, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">輸入密碼<span style="color:red">*</span></label>
+
+                        @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { type = "password", id = "PW", @class = "input-group-text" } })
+
+                        <span class="input-group-text">
+                            <i class="icon-lock"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" type="password" name="ConfirmPassword">確認密碼<span style="color:red">*</span></label><input class="input-group-text" type="password" id="PWC" name="ConfirmPassword" />
+                        <span class="input-group-text">
+                            <i class="icon-lock"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.UserName, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">會員姓名<span style="color:red">*</span></label>
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "input-group-text", @id = "username" } })
+
+                        <span class="input-group-text">
+                            <i class="icon-user"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.Email, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">會員信箱<span style="color:red">*</span></label>
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "input-group-text", @id = "email" } })
+
+                        <span class="input-group-text">
+                            <i class="icon-envelope"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.Phone, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">會員電話<span>&nbsp;</span></label>
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "input-group-text", @id = "phone" } })
+
+                        <span class="input-group-text">
+                            <i class="icon-phone"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.Address, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">會員地址<span>&nbsp;</span></label>
+
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "input-group-text", @id = "address" } })
+
+                        <span class="input-group-text">
+                            <i class="icon-home"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.Gender, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">會員性別<span style="color:red">*</span></label>
+                        @Html.RadioButtonFor(model => model.Gender, "男", new { @style = "margin:7px" })<h5 style="margin:auto">男</h5>
+                        @Html.RadioButtonFor(model => model.Gender, "女", new { @style = "margin:7px" })<h5 style="margin:auto">女</h5>
+
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.Birth, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">會員生日<span style="color:red">*</span></label>
+                        @Html.EditorFor(model => model.Birth, new { htmlAttributes = new { type = "date", @PlaceHolder = "mm/dd/yyyy", @class = "input-group-text" } })
+
+                        @*<span class="input-group-text">
+                            <i class="icon-present"></i>
+                        </span>*@
+                    </div>
+                </div>
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+                        @Html.ValidationMessageFor(model => model.Birth, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group col-md-12">
+                    <div class="input-group-prepend">
+
+                        @*@Html.LabelFor(model => model.UserPhoto, new { @class = "input-group-text" })*@
+                        <label class="input-group-text">上傳照片<span>&nbsp;</span></label>
+                        @Html.TextBoxFor(model => model.UserPhoto, new { type = "file", @class = "form-control" })
+
+                        @*<span class="input-group-text">
+                            <i class="icon-camera"></i>
+                        </span>*@
+
+                    </div>
+                </div>
+            </div>
+            <button id="Submit" type="submit" class="btn btn btn-primary" style="margin:5%;">確認</button>
+            <h3 id="DEMO" class="btn" style="border:solid blue; margin:2%;">DEMO</h3>
+            <h3 id="DEMOX" class="btn" style="border:solid red; margin:2%;">認證</h3>
+            <h3 id="DEMOXX" class="btn" style="border:solid green; margin:2%;">警告</h3>
+        }
+    </div>
+</div>
+
+<script>
+    $("#DEMO").click(function () {
+        $("#account").val("newuser001");
+        $("#PW").val("00000000");
+        $("#PWC").val("00000000");
+        $("#username").val("張丁進");
+        $("#email").val("newuser001@gmail.com");
+        $("#phone").val("2280-1234");
+        $("#address").val("台北市大安區和平東路二段106號11樓");
+    })
+    $("#DEMOX").click(function () {
+        $("#account").val("newuser001");
+        $("#PW").val("1234567");
+        $("#PWC").val("1234567");
+        $("#username").val("Carol Susan Jane Danvers");
+        $("#email").val("newuser001@gmail.com");
+        $("#phone").val("1-888-9-123456");
+        $("#address").val("台北市大安區和平東路二段106號11樓");
+    })
+    $("#DEMOXX").click(function () {
+        $("#account").val("Test00001");
+        $("#PW").val("12345678");
+        $("#PWC").val("87654321");
+        $("#username").val("張丁進");
+        $("#email").val("newuser001@gmail.com");
+        $("#phone").val("2280-1234");
+        $("#address").val("台北市大安區和平東路二段106號11樓");
+    })
+</script>

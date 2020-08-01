@@ -1,0 +1,13 @@
+﻿@model IEnumerable<WebClass.Models.C_ClassType>
+
+<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown" style="height: 500px; overflow-y: scroll;">
+    <div class="list-group">
+        @Html.ActionLink($"所有課程({ViewBag.X})", "Browse", "Home", new { id = 0 }, new { @class = "list-group-item list-group-item-action" })
+        @foreach (var classtype in Model)
+        {
+            @Html.ActionLink($"{classtype.ClassTypeName}({classtype.C_Class.Where(c => c.CreateTypeID == 1 || c.CreateTypeID == 2).Count()})", "Browse", "Home",
+        new { id = classtype.ClassTypeID }, new {  @class = "list-group-item list-group-item-action" })
+
+        }
+    </div>
+</div>

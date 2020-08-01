@@ -1,0 +1,79 @@
+﻿@model IEnumerable<WebClass.ViewModel.TeachingVM>
+
+@{
+    ViewBag.Title = "我教的課";
+}
+<style>
+    .label-default {
+        background-color: #777;
+        display: inline-block;
+        padding: .375rem .75rem;
+        /*font-size: 1rem;*/
+        font-weight: 400;
+        line-height: 1.5;
+        color: #fff;
+        text-align: center;
+        vertical-align: baseline;
+        border-radius: .25em;
+        border: 1px solid transparent;
+        margin-bottom: 0;
+    }
+</style>
+<link href="~/Content/jquery.dynatable.css" rel="stylesheet" />
+
+<div class="container" style="margin:100px auto">
+    <h2>我教的課</h2>
+    <table id="text-transform-example" class="table table-bordered">
+        <thead style="background-color:rgba(99,194,222,0.5)">
+            <tr >
+                <th style="width:30%">@Html.DisplayNameFor(c => c.ClassName)</th>
+                <th style="width:10%">@Html.DisplayNameFor(c => c.Price)</th>
+                <th style="width:10%">@Html.DisplayNameFor(c => c.ClassType)</th>
+                <th style="width:12%">@Html.DisplayNameFor(c => c.RegisterTime)</th>
+                <th style="width:10%">@Html.DisplayNameFor(c => c.ClassStudentNumber)</th>
+                <th style="width:10%">@Html.DisplayNameFor(c => c.CreateType)</th>
+                <th style="width:8%">細節</th>
+                <th style="width:10%"></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var class_ in Model)
+            {
+            <tr>
+
+                <td>@Html.DisplayFor(c => class_.ClassName)</td>
+                <td>@Html.DisplayFor(c => class_.Price)</td>
+                <th>@Html.DisplayFor(c => class_.ClassType)</th>
+                <td>@Html.DisplayFor(c => class_.RegisterTime)</td>
+                <td>@Html.ActionLink(Html.DisplayFor(c => class_.ClassStudentNumber).ToHtmlString(), "GetStudent", new { id = class_.ClassID }, new { @class = "btn btn-success" })</td>
+                <td>@Html.DisplayFor(c => class_.CreateType)</td>
+                <td>
+                    @Html.ActionLink("細節", "Detial", new { id = class_.ClassID }, new { @class = "btn btn-ghost-success" })
+                </td>
+                @if (class_.CreateTypeID == 1 || class_.CreateTypeID == 2)
+                {
+                    <td>@Html.ActionLink("單元細節", "Index", "Lesson", new { id = class_.ClassID }, new { @class = "btn btn-ghost-info " })</td>
+                }
+                else if (class_.CreateTypeID == 4)
+                {
+                    <td><p class="label-default">送審中</p></td>
+                }
+                else
+                {
+                    <td>@Html.ActionLink("重新送審", "Edit", new { id = class_.ClassID }, new { @class = "btn btn-danger" })</td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script src="~/Scripts/jquery.dynatable.js"></script>
+<script src="~/Scripts/coreui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#text-transform-example').dynatable();
+    });
+</script>

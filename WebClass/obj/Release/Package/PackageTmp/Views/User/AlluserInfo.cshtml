@@ -1,0 +1,74 @@
+﻿@model IEnumerable<WebClass.Models.U_User>
+
+@{
+    ViewBag.Title = "AlluserInfo";
+}
+
+
+<head>
+    <link href="~/Content/jquery.dynatable.css" rel="stylesheet" />
+    @*table自動排序用*@
+    <link href="~/Content/coreui.min.css" rel="stylesheet" />
+    @*PagedList用*@
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+</head>
+
+@*網狀背景*@
+@Html.Partial("ParticlesView")
+
+
+@*主內容*@
+<div style="margin-top:3%;margin-left:3%;margin-right:3%;margin-bottom:20%">
+
+    <div>
+        @*<h1 >會員資訊</h1>*@
+        <div class="container-fluid">
+            <div class="row">
+                @Html.Partial("NavigationBarView")
+
+                <div class="col-xl-10   p-0 " style="border-radius:5px;">
+                    <h1>會員資訊</h1>
+                    <table id="text-transform-example" class="table table-bordered text-xl-center ">
+                        <thead>
+                            <tr style="background-color:#20a8d8">
+                                @*
+                                    <th>會員編號</th>*@
+                                <th>會員帳號</th>
+                                <th>會員層級</th>
+                                <th>會員電話</th>
+                                <th>會員信箱</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Where(c => c.PermissionID == 2 | c.PermissionID == 3))
+                            {
+                                <tr>
+                                    @*
+                                        <td>@item.UserID</td>*@
+                                    <td>@item.UserAccount</td>
+                                    <td>@item.U_Permission.PermissionTypeName</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.Email</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*table自動排序用*@
+<script src="~/Scripts/jquery.dynatable.js"></script>
+<script src="~/Scripts/coreui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#text-transform-example').dynatable();
+    });
+
+</script>

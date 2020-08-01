@@ -1,0 +1,40 @@
+﻿@model WebClass.Models.C_Lesson
+
+<h2>加入新單元</h2>
+
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("Create", "Lesson", FormMethod.Post, new { enctype = "multipart/form-data", id = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <input name="ClassID" id="ClassID" type="hidden" value="@ViewBag.ClassID" />
+            <div class="form-group">
+                @Html.LabelFor(c => c.LessonName)
+                @Html.EditorFor(c => c.LessonName, new { htmlAttributes = new { @Class = "form-control LessonName", @Required = "Required", maxlength = "25" } })
+                @Html.ValidationMessageFor(c => c.LessonName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(c => c.LessonVideo)
+                @Html.EditorFor(c => c.LessonVideo, new { htmlAttributes = new { @Class = "form-control", @Required = "Required", placeholder = "http://" } })
+                @Html.ValidationMessageFor(c => c.LessonVideo, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(c => c.LessonContent)
+                @Html.EditorFor(c => c.LessonContent, new { htmlAttributes = new { @Class = "form-control", @Required = "Required" } })
+                @Html.ValidationMessageFor(c => c.LessonContent, "", new { @class = "text-danger" })
+            </div>
+            <button type="submit" id="submit" class="btn btn-primary sentnew">新增單元</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉頁面</button>
+            <button type="button" class="btn btn-ghost-info demolesson" >DEMO鍵</button>
+        }
+    </div>
+</div>
+<script>
+    $(".demolesson").on("click", function () {
+        $("#LessonName").val("第五課-如何查看收益")
+        $("#LessonVideo").val("https://www.youtube.com/watch?v=nV82WwowgDU")
+        $('#LessonContent').val("如何查看收益")
+    })
+
+</script>

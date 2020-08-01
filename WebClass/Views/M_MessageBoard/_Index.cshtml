@@ -1,0 +1,219 @@
+﻿@model  IEnumerable<WebClass.Models.M_MessageBoard>
+
+@{
+    ViewBag.Title = "_Index";
+    Layout = null;
+}
+
+<head>
+    @*<script src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js'></script>*@
+    <style>
+        /*會員頭貼大小*/
+        .class-med {
+            max-height: 60px;
+            max-width: 60px;
+            background-size: auto;
+        }
+        /*留言板邊框*/
+        #myTable {
+            width: 100%;
+            border-style: hidden;
+            box-shadow: 0 0 0 1px #000;
+            border-radius: 4px;
+        }
+
+        .slide_toggle {
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            /* 收合提示字串區塊, 還可加入自訂 CSS 效果 */
+            line-height: 170%;
+            background-color: #eed;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+
+
+<h2>留言板</h2>
+
+
+
+@*留言板內容開頭*@
+<table class="table" id="myTable">
+
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <td style="width:10%">
+                    @Html.DisplayFor(modelItem => item.U_User.UserAccount)
+                    @{
+                    if (item.C_Class.CreateUserID == item.UserID)
+                    {
+                    <p class="badge badge-primary">老師本人</p>
+                    }
+                    }
+                    <div class="span6">
+                        <img style="float:left;" class="img-fluid class-med" src="@Url.Action("GetPicture", "User" , new { id=item.UserID })" />
+                    </div>
+                </td>
+                <td style="width:40%">
+                    @Html.DisplayFor(modelItem => item.MessageBoardContent)
+                    @{
+                        @*有回文內容才產生收合按鈕*@
+                        if (item.M_ReMessageBoard.Count != 0)
+                        {
+                            @*回文收合按鈕*@
+                            <p class="click"><i class="fas fa-comments"></i></p>
+                            @*回文內容*@
+                            <div style="display: none; border:hidden; width:170%; box-shadow:0 0 0  1px #000; border-radius:4px;">
+                                @Html.Action("Re_Index", "M_MessageBoard", new { reboardid = item.MessageBoardID })
+                            </div>
+                        }
+                    }
+                </td>
+                <td style="padding-right:1px; width:15%;">
+                    @Html.DisplayFor(modelitem => item.PostTime)
+                </td>
+                @{
+                    if (Request.Cookies["account"].Value != HttpUtility.UrlEncode("訪客"))
+                    {
+                        @*回覆檢舉button*@
+                        <td style="padding-right:1px; width:20%;">
+                            <button type="button" class="btn btn-outline-primary replybutton" data-toggle="modal" data-target="#myreply" data-bid="@item.MessageBoardID"><i class="fas fa-reply-all"></i></button> |
+                            <button type="button" class="btn btn-outline-danger reportbutton" data-toggle="modal" data-target="#myreport" data-bid="@item.MessageBoardID"><i class="fas fa-ban"></i>檢舉</button>
+                        </td>
+                        @*回覆檢舉button*@
+                    }
+                }
+                @{
+                    if (Request.Cookies["account"].Value != HttpUtility.UrlEncode("訪客"))
+                    {
+                        if (Html.DisplayFor(modelItem => item.U_User.UserAccount).ToString() == Request.Cookies["account"].Value)
+                        {
+                            @*編輯刪除button*@
+                            <td style="padding-right:1px; width:10%;">
+                                <button style="width:45px;" type="button" class="btn btn-outline-primary editbutton" data-toggle="modal" data-target="#myedit" data-bid="@item.MessageBoardID"><i class="fas fa-edit"></i></button>
+                                <button style="width:45px;" type="button" class="btn btn-outline-danger delbutton" data-toggle="modal" data-target="#mydelete" data-bid="@item.MessageBoardID"><i class="fas fa-trash-alt"></i></button>
+                            </td>
+                            @*編輯刪除button*@
+                        }
+                    }
+                }
+
+
+            </tr>
+        </tbody>
+    }
+
+</table>
+@*留言板內容結尾*@
+@{
+    if (Request.Cookies["account"].Value != HttpUtility.UrlEncode("訪客"))
+    {
+        @*留言button*@
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"><i class="fas fa-comment-medical"></i></button>
+        @Html.Action("_Create", "M_MessageBoard")
+    }
+}
+
+@*彈出的module*@
+<div id="myedit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="editcontent"></div>
+        </div>
+    </div>
+</div>
+<div id="mydelete" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="delcontent"></div>
+        </div>
+    </div>
+</div>
+
+<div id="myreply" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="replycontent"></div>
+        </div>
+    </div>
+</div>
+
+<div id="myreport" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="reportcontent"></div>
+        </div>
+    </div>
+</div>
+@*彈出的module*@
+
+<script>
+    $(document).ready(function () {
+        $(".click").click(function () {
+            $(this).parent().children('div').slideToggle("slow");
+        })
+    });
+    $(document).ready(function () {
+
+        $(".editbutton").on("click", function () {
+             var editbutton = $(this).data("bid");
+            $.ajax({
+             type: "GET",
+                url: `@Url.Action("Edit", "M_MessageBoard")?id=${editbutton}`,
+                data: {
+                     "id": editbutton
+                },
+                success: function (data1) {
+                    $(".editcontent").html(data1);
+                }
+             })
+        }),
+
+            $(".delbutton").on("click", function () {
+             var delbutton = $(this).data("bid");
+                $.ajax({
+             type: "GET",
+                    url: `@Url.Action("Delete", "M_MessageBoard")?id=${delbutton}`,
+                    data: {
+                     "id": delbutton
+                    },
+                    success: function (data2) {
+                        $(".delcontent").html(data2)
+                    }
+             })
+            }),
+
+            $(".replybutton").on("click", function () {
+             var replybutton = $(this).data("bid");
+                $.ajax({
+             type: "get",
+                    url: `@Url.Action("Reply", "M_MessageBoard")`,
+                    data: {
+                 id: replybutton
+                    },
+                    success: function (data3) {
+                        $(".replycontent").html(data3)
+                    }
+             })
+            }),
+
+            $(".reportbutton").on("click", function () {
+             var reportbutton = $(this).data("bid");
+                $.ajax({
+             type: "get",
+                    url: `@Url.Action("Create", "M_Report")`,
+                    data: {
+                 id: reportbutton
+                    },
+                    success: function (data4) {
+                        $(".reportcontent").html(data4)
+                    }
+             })
+            })
+
+    })
+</script>

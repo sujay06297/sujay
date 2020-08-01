@@ -1,0 +1,222 @@
+﻿@model WebClass.Models.C_Class
+<script src="~/Scripts/CKE/ckeditor/ckeditor.js"></script>
+@{
+    ViewBag.Title = "開課";
+}
+
+<div class="container" style="margin:5% auto">
+
+
+    <div class="card">
+        <div class="card-header">
+            <h2>課程送審</h2>
+            <button class="democreateclass btn btn-outline-info">demo鍵</button>
+        </div>
+        <div class="card-body row">
+            @using (Html.BeginForm("Insert", "Class", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="float-left">
+
+                    <div class="form-group">
+                        <div class="input-group col-md-12">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">課程名稱：</span>
+                            </div>
+                            @Html.EditorFor(c => c.ClassName, new { htmlAttributes = new { @Class = "form-control" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-book"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            @Html.ValidationMessageFor(c => c.ClassName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="input-group col-md-12">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">價　　格：</span>
+                            </div>
+                            @Html.EditorFor(c => c.Price, new { htmlAttributes = new { @Class = "form-control" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            @Html.ValidationMessageFor(c => c.Price, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group col-md-12">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">需求人數：</span>
+                            </div>
+                            @Html.EditorFor(c => c.NeedUser, new { htmlAttributes = new { @Class = "form-control" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            @Html.ValidationMessageFor(c => c.NeedUser, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group col-md-12">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">開課時間：</span>
+                            </div>
+                            @Html.EditorFor(c => c.RegisterTime, new { htmlAttributes = new { @Class = "form-control" } })
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            @Html.ValidationMessageFor(c => c.RegisterTime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group col-md-12">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">課程類別：</span>
+                            </div>
+                            @{
+                                var class_ = new SelectList(ViewBag.ClassType, "ClassTypeID", "ClassTypeName");
+                            }
+                            @Html.DropDownListFor(c => Model.ClassTypeID, class_, "請選擇", new { @Class = "form-control" })
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-list-ul"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            @Html.ValidationMessageFor(c => Model.ClassTypeID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="float-right">
+                    <div class="form-group">
+                        <div class="input-group col-md-12">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">封面圖片：</span>
+                            </div>
+                            <input type="file" name="PostPicture" id="PostPicture" Class="form-control" accept=" image/jpeg, image/png" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fas fa-image"></i>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            @Html.ValidationMessageFor(c => c.MainPicture, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group col-md-12">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">圖片預覽：</span>
+                            </div>
+                            <img id="target" name="target" class="" src="@Url.Content("~/images/nopic.jpg")" style="width:280px ;height:200px" />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group pl-3">
+                    <div class="input-group ">
+                        <span class="input-group-text" style="width:100%">課程敘述：</span>
+                    </div>
+                    @Html.TextAreaFor(c => c.ClassContent, new { @Class = "form-control pl-3" })
+                    @Html.ValidationMessageFor(c => c.ClassContent, "", new { @class = "text-danger" })
+                </div>
+
+
+
+                <div class="form-group form-actions btn-group btn-group-lg input-group-prepend pl-3">
+                    <button type="submit" class="btn btn-primary btn-lg">送審</button>
+                    @Html.ActionLink("取消", "CreateClassCheck", "Home",null, new { @class = "btn btn-danger btn-lg" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    CKEDITOR.replace('ClassContent');
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("PostPicture").addEventListener("change", fileviewer);
+    });
+
+    function fileviewer() {
+        var files = document.getElementById("PostPicture").files;
+        for (var x of files) {
+            var reader = new FileReader();
+            reader.addEventListener("load", function (e) {
+                var fileContent = e.target.result;
+                document.getElementById("target").setAttribute("src", fileContent);
+            })
+            reader.readAsDataURL(x);
+        }
+    }
+
+
+
+    $(".democreateclass").on("click", function () {
+
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("ClassDemo","Class")',
+            data: { id: 1110 },
+            success: function (data) {
+                CKEDITOR.instances['ClassContent'].setData(data)
+            }
+        })
+
+        $("#ClassName").val("人工智慧淺談");
+        $("#Price").val("1200");
+        $("#NeedUser").val("15");
+        $("#RegisterTime").val('2019-06-24');
+        $("#ClassTypeID").val("9");
+        })
+
+            //$(function () {
+            //    $("#PostPicture").on("change", function () {
+            //        readURL(this);
+            //    });
+            //});
+
+
+            //function readURL(input) {
+            //    if (input.files && input.files[0]) {
+            //        var reader = new FileReader();
+            //        reader.onload = function (e) {
+            //            $("#target").attr('src', e.target.result);
+            //        }
+            //        reader.readAsDataURL(input.files[0]);
+            //    }
+            //}
+</script>

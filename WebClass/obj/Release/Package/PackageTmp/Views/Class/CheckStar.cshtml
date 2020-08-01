@@ -1,0 +1,91 @@
+﻿@model IEnumerable<WebClass.Models.UC_Score>
+
+<style>
+    .star-rating1 {
+        display: flex;
+        align-items: center;
+        font-size: 3em;
+        /*margin-top: 50px;*/
+    }
+
+    .back-stars1 {
+        display: flex;
+        color: lightgray;
+        position: relative;
+        text-shadow: 4px 4px 10px gray;
+    }
+
+    .front-stars1 {
+        display: flex;
+        color: #FFBC0B;
+        overflow: hidden;
+        position: absolute;
+        text-shadow: 2px 2px 5px #d29b09;
+        top: 0;
+    }
+</style>
+<div class="overlay">
+    <div class="row" style="margin-bottom:30px;margin-top:30px;padding-top:10%;">
+        <div class="col-3"></div>
+        <div class="col-6" style="background-color:lightgray;padding:0;margin:0;">
+            <button id="Xbtn" class="btn btn-danger m-2 float-lg-right">X</button>
+            @if (Model.Where(c => c.ClassID == ViewBag.ClassID).Select(c => c.Score) != null)
+            {
+
+                foreach (var allstar in Model)
+                {
+                    <div class="card m-5 ">
+                        <div class="card-header bg-primary">
+                            <div class="star-rating1" title="">
+                                <div class="back-stars1">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+
+                                    <div class="front-stars1" style="width:@(allstar.Score*20)%">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ml-5 font-2xl">
+                            <div class="mt-2">
+                                <p>
+                                    評分者： @Html.DisplayFor(c => allstar.U_User.UserName)
+                                </p>
+                            </div>
+                            <div>
+                                <p>
+                                    評分內容：
+                                </p>
+                                <div class="b-a-2 mr-5 mb-3">
+                                    <label class="ml-2">
+                                        @Html.DisplayFor(c => allstar.ScoreContent)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+            <div class="card m-5 font-2xl"><p class="ml-2">沒有其他評分囉~</p> </div>
+            <button id="XXbtn" class="btn btn-danger mr-4 mb-4 float-lg-right">關閉</button>
+        </div>
+        <div class="col-3" style="padding:0;"></div>
+    </div>
+
+</div>
+
+<script>
+    $('#Xbtn,#XXbtn').on('click', function () {
+        $('#exampleModal').modal('hide')
+    });
+</script>

@@ -1,0 +1,162 @@
+﻿@model IPagedList<WebClass.Models.M_Report>
+@using PagedList;
+@using PagedList.Mvc;
+
+
+@{
+    ViewBag.Title = "檢舉總表";
+}
+
+@*table自動排序用*@
+<link href="~/Content/coreui.min.css" rel="stylesheet" />
+@*PagedList用*@
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@*網狀背景*@
+@Html.Partial("ParticlesView")
+
+<div style="margin-top:3%;margin-left:3%;margin-right:3%;margin-bottom:3%">
+    @*<h1>檢舉總表</h1>*@
+    <div class="container-fluid">
+        <div class="row">
+            @Html.Partial("NavigationBarView")
+
+            <div class="col-xl-10   p-0 " style="border-radius:5px;">
+                <h1>檢舉總表</h1>
+                <table id="text-transform-example" class="table table-bordered text-xl-center">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">被檢舉留言</th>
+                            <th style="width:5%;">檢舉人</th>
+                            <th style="width:35%;">檢舉內容</th>
+                            <th style="width:10%;">檢舉日期</th>
+                            <th style="width:5%;">處理狀態</th>
+                            <th style="width:5%;">選取</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td style="width:25%;">@Html.DisplayFor(modelItem => item.M_MessageBoard.MessageBoardContent)</td>
+                            <td style="width:5%;">@Html.DisplayFor(modelItem => item.U_User.UserName)</td>
+                            <td style="width:35%;">@Html.DisplayFor(modelItem => item.ReportContent)</td>
+                            <td style="width:10%;">@Html.DisplayFor(modelItem => item.ReportDate)</td>
+                            <td style="width:10%;">@Html.DisplayFor(modelItem => item.M_SolutionType.SolutionTypeName)</td>
+                            <td id="myform1" style="width:5%;">
+                                <input type="checkbox" id="@item.ReportID" value="@item.ReportID" name="checkbtn" style="zoom: 2; margin-left:5px; vertical-align: middle ; " class="active chk" data-bid="@item.ReportID" />
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                <br />
+                <div style="margin-left:100px;">
+                    <h4>更改狀態</h4>
+                    <button type="button" class="btn btn-outline-primary solved">已解決</button>
+                    <button type="button" class="btn btn-outline-danger deleted">已警告</button>
+                </div>
+                <br />
+                <div class="text-lg-center ">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }),
+                    new PagedListRenderOptions
+                    {
+                    LinkToFirstPageFormat = "<< 第一頁",
+                    LinkToPreviousPageFormat = "< 上一頁",
+                    LinkToNextPageFormat = "下一頁 >",
+                    LinkToLastPageFormat = "最終頁 >>",
+                    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                    DisplayLinkToLastPage = PagedListDisplayMode.Always
+                    })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+            var vals = [];
+            $('.chk').on("click",function () {
+                var item =
+                    {
+                        ReportID: $(this).val(),
+                        SolutionTypeID : 2,
+                     }
+
+                vals.push(item);
+        });
+        var dvals = [];
+        $('.chk').on("click", function () {
+            var item =
+            {
+                ReportID: $(this).val(),
+                SolutionTypeID: 3,
+            }
+
+            dvals.push(item);
+        });
+
+
+        $(".solved").on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Solved", "M_Report")',
+                data: { "reportList": JSON.stringify(vals) },
+                dataType: "text",
+                success: function (data) {
+                    window.location.href = `@Url.Action("Index", "M_Report")`;
+                }
+            })
+        }),
+
+            $(".deleted").on("click", function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Deleted", "M_Report")',
+                data: { "reportList": JSON.stringify(dvals) },
+                success: function () {
+                    window.location.href = `@Url.Action("Index", "M_Report")`;
+                }
+            })
+        })
+
+    })
+</script>
+<script type="text/javascript">
+    function check_all(obj, cName) {
+        var checkboxs = document.getElementsByName(cName);
+        for (var i = 0; i < checkboxs.length; i++) { checkboxs[i].checked = obj.checked; }
+    }
+</script>
+
+@*table自動排序用*@
+<script src="~/Scripts/jquery.dynatable.js"></script>
+<script src="~/Scripts/coreui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#text-transform-example').dynatable();
+    });
+
+    $('#text-transform-example').bind('dynatable:preinit', function (e, dynatable) {
+        dynatable.utility.textTransform.myNewStyle = function (text) {
+            return text
+                .replace(/\s+/, '_')
+                .replace(/[A-Z]/, function ($1) { return $1 + $1 });
+        };
+    }).dynatable({
+        table: {
+            defaultColumnIdStyle: 'myNewStyle'
+        },
+        features: {
+            paginate: false,
+            search: false,
+            recordCount: false,
+            perPageSelect: false
+        }
+    });
+</script>

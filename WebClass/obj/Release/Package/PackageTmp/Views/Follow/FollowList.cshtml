@@ -1,0 +1,71 @@
+﻿@model IEnumerable<WebClass.Models.UC_Follow>
+@{
+    ViewBag.Title = "我的收藏";
+}
+
+
+
+<div class="container Follow">
+    <h2 style="margin:50px 0px">我的收藏</h2>
+    <div class="">
+        <div class="">
+            <table class="table table-hover" style="">
+                <thead>
+                    <tr class="row">
+                        <th class="col-8 ">課程</th>
+                        <th class="col-2 ">價格</th>
+                        <th class="col-2 ">刪除</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr id="@item.FollowID" class="row">
+                            <td class="col-7 ">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" src="@Url.Action("GetImage", "Class", new {id= item.ClassID})" style="width: 72px; height: 72px;"> </a>
+                                    <div style="margin-left:30px" class="media-body">
+                                        <h5 class="media-heading">
+                                            <a style="color:black" href="~/Class/Detial/@item.ClassID">@item.C_Class.ClassName</a>
+                                        </h5>
+                                        <span>課程狀態 </span>
+                                        <span class="text-success"><strong>@item.C_Class.C_CreateType.CreateTypeName</strong></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="col-3  text-center">
+                                @if (item.C_Class.CreateTypeID == 2)
+                                {
+                                <strong><span style="color:red">優惠價!</span> @((item.C_Class.Price * 0.9).ToString("C0"))</strong>
+                                }
+                                else
+                                {
+                                    <strong>@item.C_Class.Price.ToString("C0")</strong>
+                                }
+
+                            </td>
+                            <td class="col-2">
+                                <a onclick="DeleteFollow(@item.FollowID)" href="javascript:void(0);" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function DeleteFollow(FollowID) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("DeleteToFollow", "Follow")',
+            data: { id: FollowID },
+            success: function () {
+                $(`#${FollowID}`).contents().remove();
+            }
+        })
+    }
+</script>

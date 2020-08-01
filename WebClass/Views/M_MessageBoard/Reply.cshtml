@@ -1,0 +1,53 @@
+﻿@model WebClass.Models.M_ReMessageBoard
+
+@{
+    ViewBag.Title = "Reply";
+}
+
+
+<div class="modal-header modal-header-primary">
+    <button type="button" class="close" aria-label="Close" data-dismiss="modal">&times;</button>
+
+</div>
+
+@using (Html.BeginForm("Reply", "M_MessageBoard"))
+{
+    <input type="hidden" name="id" value='@ViewBag.MessageBoard' />
+    @Html.AntiForgeryToken()
+    <div class="modal-body">
+
+        <h2>我要回覆</h2>
+        <hr />
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReMessageBoardContent, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ReMessageBoardContent, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="回覆此留言" class="btn btn-primary 1564284" />
+                    <input type="button" value="仁富回答" class="btn btn-warning" id="replyAdemo" />
+                    @*<input type="button" value="回答若凡" class="btn btn-warning" id="replyBdemo" />*@
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    <script>
+    $('#replyAdemo').click(function () {
+        $('#ReMessageBoardContent').val("謝謝老師的講解~~");
+    });
+    $('#replyBdemo').click(function () {
+        $('#ReMessageBoardContent').val("一般法定貨幣是一種實體的交易媒介，有無限的數量並由政府發行和控制；而比特幣，在另一方面，最大的供應量為兩千一百萬枚硬幣，其不受任何政府或實體控制。 加密貨幣和法定貨幣並存，並且各有利弊。 比特幣與法定貨幣有一些相似之處：價值根據市場的反應而變化，虛擬貨幣也可用於購買物品或支付服務費用，加值卡片並且人們已經在日常生活中像是一般法定貨幣一樣使用它，但這也就只有這些為相似之處。");
+    });
+    </script>
+

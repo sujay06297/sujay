@@ -1,0 +1,160 @@
+﻿@model IEnumerable<WebClass.Models.M_ReMessageBoard>
+    @{
+    ViewBag.Title = "Re_Index";
+    Layout = null;
+    }
+    <style>
+        /*會員頭貼大小*/
+        .img-small {
+            max-height: 30px;
+            max-width: 30px;
+            background-size: auto;
+        }
+        /*對話框樣式*/
+        .modal-header-primary {
+            color: #fff;
+            padding: 9px 15px;
+            border-bottom: 1px solid #eee;
+            background-color: #428bca;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .modal-footer-primary {
+            color: #fff;
+            padding: 9px 15px;
+            border-top: 1px solid #eee;
+            background-color: #428bca;
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+        /*對話框樣式*/
+    </style>
+    @*回文內容開頭*@
+    <table class="table" id="myreTable">
+        @foreach (var item in Model)
+        {
+        <tbody>
+            <tr>
+                <td style="width:10%">
+                    <div class="span6">
+                        <img style="float:left;" class="img-fluid img-small" src="@Url.Action("GetPicture","User", new { id=item.UserID })" />
+                    </div>
+                    @{
+                        if (Request.Cookies["createuser"].Value == item.UserID.ToString())
+                        {
+                            <p class="badge badge-primary">老師本人</p>
+                        }
+                    }
+                </td>
+                <td style="width:40%">
+                    @Html.DisplayFor(modelitem => item.ReMessageBoardContent)
+                </td>
+                <td style="padding-right:1px; width:15%;">
+                    @Html.DisplayFor(modelitem => item.RePostTime)
+                </td>
+                @{
+                if (Request.Cookies["account"].Value != HttpUtility.UrlEncode("訪客"))
+                {
+                @*回覆button*@
+                <td style="padding-right:1px; width:20%;">
+                    <button type="button" class="btn btn-outline-primary rreplybutton" data-toggle="modal" data-target="#rmyreply" data-bid="@item.MessageBoardID"><i class="fas fa-reply-all"></i></button> @*| @Html.ActionLink("檢舉", "Report", new { id = item.MessageBoardID }, new { @class = "text text-danger" })*@
+                </td>
+                @*回覆button*@
+                }
+                }
+                @{
+                if (Request.Cookies["account"].Value != HttpUtility.UrlEncode("訪客"))
+                {
+                if (Html.DisplayFor(modelItem => item.UserID).ToString() == Request.Cookies["UserID"].Value)
+                {
+                @*編輯刪除button*@
+                <td style="padding-right:5px; width:20%;">
+                    <button style="width:45px;" type="button" class="btn btn-outline-primary reditbutton" data-toggle="modal" data-target="#rmyedit" data-bid="@item.ReMessageBoardID" data-bid2="@item.MessageBoardID"><i class="fas fa-edit"></i></button>@*@Html.Action("Edit", "M_MessageBoard" , new { id = item.MessageBoardID })*@
+                    <button style="width:45px;" type="button" class="btn btn-outline-danger rdelbutton" data-toggle="modal" data-target="#rmydelete" data-bid="@item.ReMessageBoardID"><i class="fas fa-trash-alt"></i></button>@*@Html.Action("Delete", "M_MessageBoard", new { id = item.MessageBoardID })*@
+                </td>
+                @*編輯刪除button*@
+                }
+                else
+                {
+                <td></td>}
+                }
+                }
+            </tr>
+        </tbody>
+        }
+    </table>
+    @*回文內容結尾*@
+
+    <div id="rmyedit" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="reditcontent"></div>
+            </div>
+        </div>
+    </div>
+    <div id="rmydelete" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="delcontent"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rmyreply" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="replycontent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $(".reditbutton").on("click", function () {
+                var reditbutton = $(this).data("bid");
+                var rbeditbutton = $(this).data("bid2");
+                $.ajax({
+                    type: "GET",
+                    url: `@Url.Action("Re_Edit", "M_MessageBoard")?id=${rbeditbutton}?reboardid=${reditbutton}`,
+                    data: {
+                        reboardid: reditbutton,
+                        id: rbeditbutton
+                    },
+                    success: function (data1) {
+                        $(".reditcontent").html(data1)
+                    }
+                })
+            }),
+
+                $(".rdelbutton").on("click", function () {
+                    var rdelbutton = $(this).data("bid");
+                    $.ajax({
+                        type: "GET",
+                        url: `@Url.Action("Re_Delete", "M_MessageBoard")?id=${rdelbutton}`,
+                        data: {
+                            "id": rdelbutton
+                        },
+                        success: function (data2) {
+                            $(".delcontent").html(data2)
+                        }
+                    })
+                }),
+
+                $(".rreplybutton").on("click", function () {
+                    var rreplybutton = $(this).data("bid");
+                    $.ajax({
+                        type: "get",
+                        url: `@Url.Action("Reply", "M_MessageBoard")`,
+                        data: {
+                            id: rreplybutton
+                        },
+                        success: function (data3) {
+                            $(".replycontent").html(data3)
+                        }
+                    })
+                })
+
+        })
+    </script>

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<WebClass.Models.B_Order>
+@{
+    ViewBag.Title = "訂單明細";
+}
+<div class="container">
+    <h1 style="margin-left:10%;margin-top:10%;margin-bottom:50px"><i class="fas fa-info-circle"></i>訂單明細</h1>
+
+    @foreach (var od in Model)
+    {
+        <div style="margin-left:10%;margin-right:10%;background-color:#E8FFFF;border:solid 1pt #AAAAAA;padding-left:25px;padding-right:25px;margin-bottom:50px;box-shadow: 0 30px 70px rgba(0,0,0,.2);">
+            <span style="margin:10px 0px;font-size:25px"><i class="fas fa-info-circle"></i>訂單編號 : @od.OrderID &nbsp</span>
+            <span style="font-size:20px;margin-left:25.1%"><i class="far fa-credit-card"></i>付款方式 : 信用卡全額付款 &nbsp</span>
+            <table class="table table-hover" style="width:100%; margin-bottom:10px">
+                <thead>
+                    <tr class="row">
+                        <th class="col-8 ">課程</th>
+                        <th class="col-4 ">價格</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Where(c => od.OrderID == c.OrderID).Select(c => c.B_OrderDetail).FirstOrDefault())
+                    {
+                        <tr id="" class="row">
+                            <td class="col-8 ">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" src="@Url.Action("GetImage", "Class", new { id = item.ClassID })" style="width: 72px; height: 72px;"> </a>
+                                    <div style="margin-left:30px" class="media-body">
+                                        <h5 class="media-heading">
+                                            <a style="color:black" href="~/Class/Detial/@item.ClassID">@item.C_Class.ClassName</a>
+                                        </h5>
+                                        <span>課程狀態 </span>
+                                        <span class="text-success"><strong>@item.C_Class.C_CreateType.CreateTypeName</strong></span>
+                                    </div>
+                                </div>
+                            </td>
+                            @if (item.C_Class.CreateTypeID == 2)
+                            {
+                                <td class="col-4">NT$@(item.Price * 0.9)</td>
+                            }
+                            else
+                            {
+                                <td class="col-4">NT$@item.Price</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <span style="font-size:20px;margin-left:51.2%"><i class="far fa-clock"></i>購買時間 : @od.BuyTime &nbsp</span>
+
+        </div>
+    }
+</div>

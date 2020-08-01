@@ -1,0 +1,37 @@
+﻿@model WebClass.Models.C_Lesson
+
+<div class="container">
+    <h2>快速瀏覽</h2>
+    <div>
+        <div>
+            <div>
+                <div>
+                    @Html.DisplayNameFor(c => c.LessonName)<h2>@Model.LessonName</h2>
+                </div>
+
+                <div>
+                    @Html.DisplayNameFor(c => c.LessonContent)<h2>@Model.LessonContent</h2>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <iframe id="iframeX" class="lvideo" allow="accelerometer ; autoplay; encrypted-media; gyroscope; picture-in-picture" width="300" height="200" frameborder="0" allowfullscreen data-video="@Model.LessonVideo"></iframe>
+
+        </div>
+        <div class="float-right">
+            <button type="button" class="btn btn-secondary " data-dismiss="modal">關閉頁面</button>
+        </div>
+    </div>
+</div>
+    <script>
+        //$(document).ready(function () {
+        //    $(".lvideo").on("load", function () {
+        //        let video = $(this).data("video");
+        //        let videosrc = video.replace("watch?v=", "embed/")
+        //        if ($(".lvideo").attr("src") == null) {
+        //            $(".lvideo").attr("src", videosrc)
+        //        }
+        //    })
+        //})
+    </script>

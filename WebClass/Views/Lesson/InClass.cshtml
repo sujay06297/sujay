@@ -1,0 +1,233 @@
+﻿@model IEnumerable<WebClass.Models.C_Lesson>
+<div>
+
+    @if (@ViewBag.UID == Model.Select(c => c.C_Class.B_OrderDetail.Where(o => o.ClassID == @ViewBag.ClassID
+      && o.B_Order.UserID == @ViewBag.UID
+      && o.OrderID == o.B_Order.OrderID).Select(o => o.B_Order.UserID).FirstOrDefault()).FirstOrDefault()
+      || @ViewBag.UID == Model.Where(c => c.C_Class.CreateUserID == @ViewBag.UID
+      && c.ClassID == @ViewBag.ClassID).Select(c => c.C_Class.CreateUserID).FirstOrDefault()
+      )
+    {
+
+        <div class="container bg-dark">
+            <div class="row">
+                <div class="col-9 " style="height:480px ;margin:10px;">
+                    <div id="lvideo" class="lvideo" allow="accelerometer ; autoplay; encrypted-media; gyroscope; picture-in-picture" width="800" height="480" frameborder="0" allowfullscreen></div>
+                </div>
+                <div class="col-2">
+                    <div class="bg-dark mt-4">
+                        <div class="text-center text-white">
+                            @Html.DisplayNameFor(c => c.LessonContent)
+                        </div>
+                        <div>
+                            @foreach (var lesson in Model)
+                            {
+                                <div class="bigdiv mb-4">
+                                    <div>
+                                        <button class="btn btn-block btn-dark test "
+                                                data-video="@lesson.LessonVideo"
+                                                data-timenow="@lesson.C_LessonCheckTime.Where(c=>c.LessonID==lesson.LessonID && c.UserID==Convert.ToInt32(Request.Cookies["UserID"].Value)).Select(c=>c.LessonTimeCheck).LastOrDefault()"
+                                                data-lessonid="@lesson.LessonID"
+                                                data-timeall="@lesson.C_LessonCheckTime.Where(c=>c.LessonID==lesson.LessonID && c.UserID==Convert.ToInt32(Request.Cookies["UserID"].Value)).Select(c=>c.LessonTime).LastOrDefault()">
+                                            @Html.DisplayFor(c => lesson.LessonName)
+                                        </button>
+                                    </div>
+                                    <div class="progress" style="height:4px">
+                                        <div class="progress-bar timebar" role="progressbar" style="" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container bg-dark">
+            <div class="row">
+                <div class="col-9 " style="height:480px ;margin:10px;">
+                    <div id="lvideo" class="lvideo"></div>
+                </div>
+                <div class="col-2">
+                    <div class="bg-dark">
+                        <div class="text-center text-white">
+                            @Html.DisplayNameFor(c => c.LessonContent)
+                        </div>
+                        <div>
+                            <div>
+                                <button class="btn btn-block btn-dark test" data-video="@Model.Select(b=>b.LessonVideo).FirstOrDefault()">@Model.Select(b => b.LessonName).FirstOrDefault()</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<script>
+
+    @* 這裡都是YT的API *@
+        //這幾個是必須
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        //這幾個是必須
+
+        let video;//紀錄影片ID
+        var player;//撥放器
+        var starttime = 0;//紀錄時間用
+
+        setInterval(timebar, 3000)
+
+        function timebar() {
+            let time1 = parseInt(player.getCurrentTime());
+            let time2 = parseInt(player.getDuration());
+            let time3 = time1 / time2 * 100;
+            $(".rememberme").parent().parent().find(".timebar").attr("style", `height:4px;width:${parseInt(time3)}%`);
+        }
+
+        function timebar2() {
+            $.each($('.test'), function (index, ele) {
+                let time1 = $(ele).data("timenow");
+                let time2 = $(ele).data("timeall");
+                let time3 = time1 / time2 * 100;
+                $(ele).parent().parent().find('.timebar').attr("style", `height:4px;width:${parseInt(time3)}%`)
+            })
+        }
+
+        $(".bigdiv").ready(
+            timebar2()
+        )
+        function onYouTubeIframeAPIReady() {
+            $('.test').first().addClass('rememberme');
+            video = $('.test').first().data("video");
+
+            let arraysrc1 = [];
+            let splitsrc1 = video.replace("watch?v=", "embed/");
+            arraysrc1 = splitsrc1.split("embed/");
+            video = arraysrc1[1];
+
+            player = new YT.Player('lvideo', {
+                height: '480',
+                width: '800',
+                videoId: video,
+                playerVars: {
+                    'start': $('.test').first().data("timenow")
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                }
+            });
+
+        }
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+
+        $(".btn-dark").on("click", function () {
+            var starttime = parseInt(player.getCurrentTime());
+            if ($("#lvideo").attr("src") != null) {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("InClass", "Lesson")',
+                    data: {
+                        id:@ViewBag.ClassID,
+                        lessonid: $(".rememberme").data("lessonid"),
+                        userid: @ViewBag.UID,
+                        timenow: parseInt(player.getCurrentTime()),
+                        timeall: parseInt(player.getDuration()),
+                    },
+                })
+                $(".rememberme").attr('data-timenow', starttime)
+
+                $('.test').removeClass("rememberme");
+                player.destroy();
+
+                starttime = $(this).attr("data-timenow");
+
+                video = $(this).data("video");
+                let arraysrc = [];
+                let splitsrc = video.replace("watch?v=", "embed/");
+                arraysrc = splitsrc.split("embed/");
+                video = arraysrc[1];
+                //$("#lvideo").attr("src", arraysrc[0] + "embed/" + arraysrc[1]);
+
+                $(this).addClass("rememberme")
+
+
+            }
+
+            player = new YT.Player('lvideo', {
+                height: '480',
+                width: '800',
+                videoId: video,
+                playerVars: {
+                    'start': starttime
+                },
+                events: {
+                }
+            });
+
+        })
+    @* 這裡都是YT的API *@
+
+</script>
+
+
+
+
+@*暫時儲存，沒用
+            var q = player.getCurrentTime();
+        //當前播放進度
+        var qq = player.getDuration();
+        //總時間
+        //else {
+    //    //第一次載入
+    //    video = $(this).data("video");
+    //    let arraysrc2 = [];
+    //    let splitsrc2 = video.replace("watch?v=", "embed/");
+    //    arraysrc2 = splitsrc2.split("embed/");
+    //    video = arraysrc2[1];
+    //}
+        //function onYouTubeIframeAPIReady() {
+        //    player = new YT.Player('player', {
+        //        height: '390',
+        //        width: '640',
+        //        videoId: video,
+        //        events: {
+        //            //'onReady': onPlayerReady,
+        //            //'onStateChange': onPlayerStateChange
+        //        }
+        //    });
+        //    console.log($("#player").attr("src"));
+        //}
+
+
+
+        // 4. The API will call this function when the video player is ready.
+        //function onPlayerReady(event) {
+        //    event.target.playVideo();
+        //}
+
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+        //var done = false;
+        //function onPlayerStateChange(event) {
+        //    if (event.data == YT.PlayerState.PLAYING && !done) {
+        //        setTimeout(stopVideo, 6000);
+        //        done = true;
+        //    }
+        //}
+        //function stopVideo() {
+        //    player.stopVideo();
+        //}
+    暫時儲存，沒用*@

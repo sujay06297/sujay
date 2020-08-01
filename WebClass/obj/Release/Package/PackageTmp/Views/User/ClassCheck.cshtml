@@ -1,0 +1,92 @@
+﻿@model IEnumerable<WebClass.Models.C_Class>
+@*@using PagedList;
+@using PagedList.Mvc;*@
+@{
+    ViewBag.Title = "ClassCheck";
+}
+<link href="~/Content/jquery.dynatable.css" rel="stylesheet" />
+@*table自動排序用*@
+<link href="~/Content/coreui.min.css" rel="stylesheet" />
+@*PagedList用*@
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<div>
+    @*網狀背景*@
+    @Html.Partial("ParticlesView")
+    <div style="margin-top:3%;margin-left:3%;margin-right:3%;margin-bottom:10%">
+        @*<h1>課程審查</h1>*@
+        <div class="container-fluid">
+            <div class="row">
+
+                @Html.Partial("NavigationBarView")
+
+                <div class="col-xl-10   p-0 " style="border-radius:5px;">
+                    <h1>課程審查</h1>
+                    <table id="text-transform-example" class="table table-bordered text-xl-center">
+                        <thead>
+                            <tr style="background-color:#20a8d8">
+                                @*<th>課程編號</th>*@
+                                <th>課程名稱</th>
+                                <th style="width:130px;">正式上課日期</th>
+                                <th>申請日期</th>
+                                <th>申請人資訊</th>
+                                <th style="width:120px;">審查狀態</th>
+                                <th style="width:120px;">審查</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @*<td>@item.ClassID</td>*@
+                                    <td style="width:400px;">@item.ClassName</td>
+                                    <td style="width:140px;">@item.RegisterTime.ToShortDateString()</td>
+                                    <td>@item.UpLoadTime.ToString()</td>
+                                    <td>
+                                        <a href="~/User/ApplicantInfo/@item.ClassID" class="btn btn-info text-white">@item.U_User.UserAccount</a>
+                                    </td>
+                                    <td>
+                                        <div class="alert alert-warning text-center" role="alert">@item.C_CreateType.CreateTypeName</div>
+                                    </td>
+                                    <td>
+                                        <a href="~/User/EditClassCheck/@item.ClassID" class="btn btn-primary">進入審查</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                    @*<div class="text-xl-center">
+                        @Html.PagedListPager(Model, page => Url.Action("ClassCheck", new { page }),
+                                       new PagedListRenderOptions
+                                       {
+                                           LinkToFirstPageFormat = "<< 第一頁",
+                                           LinkToPreviousPageFormat = "< 上一頁",
+                                           LinkToNextPageFormat = "下一頁 >",
+                                           LinkToLastPageFormat = "最終頁 >>",
+                                           DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                                           DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                                           DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                                           DisplayLinkToLastPage = PagedListDisplayMode.Always
+                                       })
+                    </div>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*table自動排序用*@
+<script src="~/Scripts/jquery.dynatable.js"></script>
+<script src="~/Scripts/coreui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#text-transform-example').dynatable();
+    });
+
+</script>
+

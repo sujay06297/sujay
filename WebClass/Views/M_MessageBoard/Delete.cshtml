@@ -1,0 +1,51 @@
+﻿@model WebClass.Models.M_MessageBoard
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+
+<div class="modal-header modal-header-primary">
+    <button type="button" class="close" aria-label="Close" data-dismiss="modal">&times;</button>
+
+</div>
+<div class="modal-body">
+    <h3>確定要刪除此留言??</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.MessageBoardContent)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.MessageBoardContent)
+            </dd>
+            
+            <dt>
+                @Html.DisplayNameFor(model => model.C_Class.ClassName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.C_Class.ClassName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.U_User.UserAccount)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.U_User.UserAccount)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="刪除" class="btn btn-outline-danger" />
+            </div>
+        }
+    </div>
+</div>
+

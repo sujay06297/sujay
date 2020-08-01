@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AOnlineClassModelStoreContainer" CdmEntityContainer="AOnlineClassEntities">
+    <EntitySetMapping Name="B_Order">
+      <EntityTypeMapping TypeName="AOnlineClassModel.B_Order">
+        <MappingFragment StoreEntitySet="B_Order">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="BuyTime" ColumnName="BuyTime" />
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_OrderDetail">
+      <EntityTypeMapping TypeName="AOnlineClassModel.B_OrderDetail">
+        <MappingFragment StoreEntitySet="B_OrderDetail">
+          <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+          <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="OrderDetailID" ColumnName="OrderDetailID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="B_ShoppingCar">
+      <EntityTypeMapping TypeName="AOnlineClassModel.B_ShoppingCar">
+        <MappingFragment StoreEntitySet="B_ShoppingCar">
+          <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="BuyTime" ColumnName="BuyTime" />
+          <ScalarProperty Name="ConfirmBuy" ColumnName="ConfirmBuy" />
+          <ScalarProperty Name="ShoppingCarID" ColumnName="ShoppingCarID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="C_Class">
+      <EntityTypeMapping TypeName="AOnlineClassModel.C_Class">
+        <MappingFragment StoreEntitySet="C_Class">
+          <ScalarProperty Name="ClassTypeID" ColumnName="ClassTypeID" />
+          <ScalarProperty Name="CreateTypeID" ColumnName="CreateTypeID" />
+          <ScalarProperty Name="CreateUserID" ColumnName="CreateUserID" />
+          <ScalarProperty Name="NeedUser" ColumnName="NeedUser" />
+          <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
+          <ScalarProperty Name="PreRegisterTime" ColumnName="PreRegisterTime" />
+          <ScalarProperty Name="UpLoadTime" ColumnName="UpLoadTime" />
+          <ScalarProperty Name="ClassContent" ColumnName="ClassContent" />
+          <ScalarProperty Name="MainPicture" ColumnName="MainPicture" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ClassName" ColumnName="ClassName" />
+          <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="C_ClassType">
+      <EntityTypeMapping TypeName="AOnlineClassModel.C_ClassType">
+        <MappingFragment StoreEntitySet="C_ClassType">
+          <ScalarProperty Name="ClassTypeName" ColumnName="ClassTypeName" />
+          <ScalarProperty Name="ClassTypeID" ColumnName="ClassTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="C_CreateType">
+      <EntityTypeMapping TypeName="AOnlineClassModel.C_CreateType">
+        <MappingFragment StoreEntitySet="C_CreateType">
+          <ScalarProperty Name="CreateTypeName" ColumnName="CreateTypeName" />
+          <ScalarProperty Name="CreateTypeID" ColumnName="CreateTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="C_Lesson">
+      <EntityTypeMapping TypeName="AOnlineClassModel.C_Lesson">
+        <MappingFragment StoreEntitySet="C_Lesson">
+          <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+          <ScalarProperty Name="LessonContent" ColumnName="LessonContent" />
+          <ScalarProperty Name="LessonVideo" ColumnName="LessonVideo" />
+          <ScalarProperty Name="LessonName" ColumnName="LessonName" />
+          <ScalarProperty Name="LessonID" ColumnName="LessonID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_MessageBoard">
+      <EntityTypeMapping TypeName="AOnlineClassModel.M_MessageBoard">
+        <MappingFragment StoreEntitySet="M_MessageBoard">
+          <ScalarProperty Name="PostTypeID" ColumnName="PostTypeID" />
+          <ScalarProperty Name="LessonID" ColumnName="LessonID" />
+          <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+          <ScalarProperty Name="MessageBoardContent" ColumnName="MessageBoardContent" />
+          <ScalarProperty Name="MessageBoardID" ColumnName="MessageBoardID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_PostType">
+      <EntityTypeMapping TypeName="AOnlineClassModel.M_PostType">
+        <MappingFragment StoreEntitySet="M_PostType">
+          <ScalarProperty Name="PostTypeName" ColumnName="PostTypeName" />
+          <ScalarProperty Name="PostTypeID" ColumnName="PostTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_ReMessageBoard">
+      <EntityTypeMapping TypeName="AOnlineClassModel.M_ReMessageBoard">
+        <MappingFragment StoreEntitySet="M_ReMessageBoard">
+          <ScalarProperty Name="MessageBoardID" ColumnName="MessageBoardID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="RePostTime" ColumnName="RePostTime" />
+          <ScalarProperty Name="ReMessageBoardContent" ColumnName="ReMessageBoardContent" />
+          <ScalarProperty Name="ReMessageBoardID" ColumnName="ReMessageBoardID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="AOnlineClassModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="U_Permission">
+      <EntityTypeMapping TypeName="AOnlineClassModel.U_Permission">
+        <MappingFragment StoreEntitySet="U_Permission">
+          <ScalarProperty Name="PermissionTypeName" ColumnName="PermissionTypeName" />
+          <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="U_Report">
+      <EntityTypeMapping TypeName="AOnlineClassModel.U_Report">
+        <MappingFragment StoreEntitySet="U_Report">
+          <ScalarProperty Name="ReportUserID" ColumnName="ReportUserID" />
+          <ScalarProperty Name="SolutionTypeID" ColumnName="SolutionTypeID" />
+          <ScalarProperty Name="solutionTime" ColumnName="solutionTime" />
+          <ScalarProperty Name="Solver" ColumnName="Solver" />
+          <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+          <ScalarProperty Name="ReportContent" ColumnName="ReportContent" />
+          <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="U_SolutionType">
+      <EntityTypeMapping TypeName="AOnlineClassModel.U_SolutionType">
+        <MappingFragment StoreEntitySet="U_SolutionType">
+          <ScalarProperty Name="SolutionTypeName" ColumnName="SolutionTypeName" />
+          <ScalarProperty Name="SolutionTypeID" ColumnName="SolutionTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="U_User">
+      <EntityTypeMapping TypeName="AOnlineClassModel.U_User">
+        <MappingFragment StoreEntitySet="U_User">
+          <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Birth" ColumnName="Birth" />
+          <ScalarProperty Name="UserPhoto" ColumnName="UserPhoto" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UC_Follow">
+      <EntityTypeMapping TypeName="AOnlineClassModel.UC_Follow">
+        <MappingFragment StoreEntitySet="UC_Follow">
+          <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="FollowID" ColumnName="FollowID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UC_Score">
+      <EntityTypeMapping TypeName="AOnlineClassModel.UC_Score">
+        <MappingFragment StoreEntitySet="UC_Score">
+          <ScalarProperty Name="ClassID" ColumnName="ClassID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ScoreContent" ColumnName="ScoreContent" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="ScoreID" ColumnName="ScoreID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

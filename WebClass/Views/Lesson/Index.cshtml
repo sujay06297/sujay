@@ -1,0 +1,147 @@
+﻿@model IEnumerable<WebClass.Models.C_Lesson>
+@using WebClass.Models;
+@{
+    ViewBag.Title = "課程單元";
+}
+<link href="~/Content/jquery.dynatable.css" rel="stylesheet" />
+
+
+<div class="container" style="margin:100px auto">
+    <div style="width:100% ;border:2px black solid;padding:1%;" class="mb-2">
+        <h2><span style="background-color:antiquewhite"> @ViewBag.ClassName</span> 課程單元</h2>
+    </div>
+    <div>
+        <button class="btn btn-success createlid m-3" data-toggle="modal" data-target="#exampleModal">新增</button>
+        <button class="btn btn-info createlid m-3 float-right backto" >回到我教的課</button>
+    </div>
+
+    <table id="text-transform-example" class="table table-bordered">
+        <thead style="background-color:rgba(99,194,222,0.5)">
+            <tr>
+                <th style="width:20%">@Html.DisplayNameFor(c => c.LessonName)</th>
+                <th style="width:20%">@Html.DisplayNameFor(c => c.LessonVideo)</th>
+                <th style="width:40%">@Html.DisplayNameFor(c => c.LessonContent)</th>
+                <th style="width:10%">細節</th>
+                <th style="width:10%">修改</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var lesson in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(c => lesson.LessonName)</td>
+                    <td>@Html.DisplayFor(c => lesson.LessonVideo)</td>
+                    <td>@Html.DisplayFor(c => lesson.LessonContent)</td>
+
+                    <td>
+                        <button class="btn btn-ghost-success detiallid" data-lid="@lesson.LessonID" data-toggle="modal" data-target="#exampleModal">細節</button>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-ghost-warning editlid" data-lid="@lesson.LessonID" data-toggle="modal" data-target="#exampleModal">修改</button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <hr />
+
+</div>
+
+<!-- 額外視窗 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog" role="document"></div>
+
+    <div class="row" style="margin-bottom:30px;margin-top:30px;padding-top:10%;">
+        <div class="col-4"></div>
+
+        <div class="col-4" style="background-color:lightgray;padding-bottom:10px">
+            <div id="layout" class="layout container"></div>
+
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
+
+<!-- 額外視窗 -->
+
+<script src="~/Scripts/jquery.dynatable.js"></script>
+<script src="~/Scripts/coreui.min.js"></script>
+<script>
+    var tmp = 1;
+    $(document).ready(function () {
+        $('#text-transform-example').dynatable();
+
+        $(".createlid").on('click', function () {
+            $.ajax({
+                type: "get",
+                url: '@Url.Action("Create","Lesson")',
+                data: {"id":@ViewBag.ClassID},
+                success: function (data) {
+                    $('.layout').html(data)
+                }
+            })
+        })
+
+        $(".detiallid").on('click', function () {
+            var lesson = $(this).data("lid");
+                $.ajax({
+                type: "get",
+                url: '@Url.Action("Details","Lesson")',
+                data: {
+                    "id":@ViewBag.ClassID,
+                    "lid": lesson
+                },
+                    success: function (data1) {
+                        $('#layout').html(data1)
+                        let ele = $('#iframeX')
+                        $('#iframeX').attr('id', `iframe${tmp}`)
+                        let video = ele.data("video");
+                        let videosrc = video.replace("watch?v=", "embed/")
+
+                        if (ele.attr("src") == null) {
+                            ele.attr("src", videosrc)
+                        }
+                        tmp = tmp + 1;
+                    }
+            })
+
+
+        })
+
+        $('.editlid').click(function () {
+            var lesson1 = $(this).data("lid");
+              $.ajax({
+                type: "get",
+                url: '@Url.Action("Edit","Lesson")',
+                data: {
+                    "id":@ViewBag.ClassID,
+                    "lid": lesson1
+                },
+                success: function (data2) {
+                    $('.layout').html(data2)
+                }
+            })
+
+        })
+    });
+
+    $('.backto').click(function () {
+        history.go(-2);
+    })
+
+    //$(".lvideo").on("load", function () {
+    //    let video = $(this).data("video");
+    //    let videosrc = video.replace("watch?v=", "embed/")
+    //    if ($(".lvideo").attr("src") == null) {
+    //        $(".lvideo").attr("src", videosrc)
+    //    }
+    //})
+
+</script>
+

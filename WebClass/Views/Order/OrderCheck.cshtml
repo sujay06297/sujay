@@ -1,0 +1,539 @@
+﻿@model IEnumerable<WebClass.Models.B_ShoppingCar>
+@{
+    ViewBag.Title = "訂單確認";
+}
+
+
+
+<style>
+
+    #checkoutBTN {
+        width: 150px;
+        font-size: 30px;
+        margin-left: 14.5%;
+    }
+
+    .card strong {
+        font-size: 18px
+    }
+
+    .orderchecklabel {
+        font-size: 1rem;
+    }
+
+    #total, #ClassCount {
+        color: #6394f8;
+    }
+
+    cartlistA a {
+        color: black;
+    }
+
+    .card {
+        position: absolute;
+        top: 51.5%;
+        left: 80%;
+        transform: translate(-50%,-50%);
+        width: 20%;
+        min-height: 30px;
+        background: #fff;
+        box-shadow: 0 20px 50px rgba(0,0,0,.1);
+        border-radius: 10px;
+        transition: 0.5s;
+        border-width: 2px;
+        border-color: #D3D3D3;
+        box-shadow: 0 30px 70px rgba(0,0,0,.2);
+    }
+
+
+
+        .card .box {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+            .card .box .img {
+                width: 120px;
+                height: 120px;
+                margin: 0 auto;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+
+                .card .box .img img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+            .card .box h2 {
+                font-size: 20px;
+                color: #262626;
+                margin: 20px auto;
+            }
+
+                .card .box h2 span {
+                    font-size: 14px;
+                    background: #e91e63;
+                    color: #fff;
+                    display: inline-block;
+                    padding: 4px 10px;
+                    border-radius: 15px;
+                }
+
+            .card .box p {
+                color: #262626;
+            }
+
+            .card .box span {
+                display: inline-flex;
+            }
+
+            .card .box ul {
+                margin: 0;
+                padding: 0;
+            }
+
+                .card .box ul li {
+                    list-style: none;
+                    float: left;
+                }
+
+                    .card .box ul li a {
+                        display: block;
+                        color: #aaa;
+                        margin: 0 10px;
+                        font-size: 20px;
+                        transition: 0.5s;
+                        text-align: center;
+                    }
+
+                    .card .box ul li:hover a {
+                        color: #e91e63;
+                        transform: rotateY(360deg);
+                    }
+
+
+
+
+
+    /* CSS for Credit Card Payment form */
+    .credit-card-box .panel-title {
+        display: inline;
+        font-weight: bold;
+    }
+
+    .credit-card-box .form-control.error {
+        border-color: red;
+        outline: 0;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(255,0,0,0.6);
+    }
+
+    .credit-card-box label.error {
+        font-weight: bold;
+        color: red;
+        padding: 2px 8px;
+        margin-top: 2px;
+    }
+
+    .credit-card-box .payment-errors {
+        font-weight: bold;
+        color: red;
+        padding: 2px 8px;
+        margin-top: 2px;
+    }
+
+    .credit-card-box label {
+        display: block;
+    }
+    /* The old "center div vertically" hack */
+    .credit-card-box .display-table {
+        display: table;
+    }
+
+    .credit-card-box .display-tr {
+        display: table-row;
+    }
+
+    .credit-card-box .display-td {
+        display: table-cell;
+        vertical-align: middle;
+        width: 50%;
+    }
+    /* Just looks nicer */
+    .credit-card-box .panel-heading img {
+        min-width: 180px;
+    }
+</style>
+
+
+<!-- Vendor libraries -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
+<!-- If you're using Stripe for payments -->
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<link href="~/Content/coreui.min.css" rel="stylesheet" />
+
+<div class="ordercheckall">
+    <div class="container">
+        <h2 style="margin-top:100px;color:dimgray;"><i class="fas fa-cart-arrow-down"></i>　選課清單</h2>
+        <div class="my-5">
+            <div class="">
+                <table class="table table-hover" style="width:70%;">
+                    <thead>
+                        <tr class="row bg-info">
+                            <th class="col-7">
+                                <h4 class="font-weight-bold"><i class="fa fa-align-justify"></i> 課程</h4>
+                            </th>
+                            <th class="col-3 text-center"><h4 class="font-weight-bold">價格</h4></th>
+                            <th class="col-2 text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr id="@item.ShoppingCarID" class="row">
+                                <td class="col-7 ">
+                                    <div class="media">
+                                        <a class="thumbnail pull-left" href="#"> <img class="media-object" src="@Url.Action("GetImage", "Class", new {id= item.ClassID})" style="width: 72px; height: 72px;"> </a>
+                                        <div style="margin-left:30px" class="media-body">
+                                            <h5 class="media-heading">
+                                                <a href="~/Class/Detial/@item.ClassID">@item.C_Class.ClassName</a>
+                                            </h5>
+                                            <span>課程狀態 </span>
+                                            <span class="text-success"><strong>@item.C_Class.C_CreateType.CreateTypeName</strong></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="col-3 text-center">
+                                    @if (item.C_Class.CreateTypeID == 2)
+                                    {
+                                        <strong><span class="badge badge-warning mb-2">優惠價</span><br />@(item.C_Class.Price * 0.9)</strong>
+                                    }
+                                    else
+                                    {
+                                        <strong>$@item.C_Class.Price</strong>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="container" style="margin-top:150px;margin-bottom:150px;height:600px;">
+        <h2 style="margin-left:9.3%;">信用卡付款</h2>
+        <div class="PaymentStyle" style="float:left;border:solid 1pt #AAAAAA;width:360px;background-color:white;border-radius:10px;box-shadow: 0 20px 50px rgba(0,0,0,.1);">
+            <div class="panel panel-default credit-card-box">
+                <div class="panel-heading display-table" style="margin-left:11%;margin-right:11%;margin-top:2%;margin-bottom:2%">
+                    <div class="row display-tr">
+                        <h5 class="panel-title display-td">Payment </h5>
+
+                        <div class="display-td">
+                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body " style="border-top:solid 1pt #AAAAAA;">
+                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                        <div style="margin-left:11%;margin-top:20px;margin-bottom:50px">
+                            <div class="form-group">
+                                <label class="orderchecklabel" for="cardNumber">信用卡號碼</label>
+                                <div class="input-group">
+                                    <input style="width:220px;border:solid 1pt #AAAAAA" type="tel"
+                                           id="cardnumber"
+                                           class="form-control"
+                                           name="cardNumber"
+                                           placeholder="Valid Card Number"
+                                           autocomplete="cc-number"
+                                           required autofocus />
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="">
+                                    <div class="form-group">
+                                        <label class="orderchecklabel" for="cardExpiry"><span class="hidden-xs">到期日</span></label>
+                                        <input style="border:solid 1pt #AAAAAA" type="tel"
+                                               id="cardbacknumber"
+                                               class="form-control"
+                                               name="cardExpiry"
+                                               placeholder="MM / YY"
+                                               autocomplete="cc-exp"
+                                               required />
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="form-group">
+                                        <label class="orderchecklabel" for="cardCVC">卡片背面三碼</label>
+                                        <input style="border:solid 1pt #AAAAAA" type="tel"
+                                               id="threenumber"
+                                               class="form-control"
+                                               name="cardCVC"
+                                               placeholder="CVC"
+                                               autocomplete="cc-csc"
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="">
+                                    <div class="form-group">
+                                        <label class="orderchecklabel" for="couponCode">持卡人姓名</label>
+                                        <input style="border:solid 1pt #AAAAAA" id="cardname" type="text" class="form-control" name="couponCode" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="display:none;">
+                                <div class="col-xs-12">
+                                    <p class="payment-errors"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="margin-top:-3.8%;margin-left:48%">發票選項</h2>
+        <div style="float:left;width:360px;margin-left:5%">
+            <span style="font-size:18px">以下資訊只用於開立發票，並不會在其他頁面顯示。發票一經開立後不可更改，請確認資訊是否都填寫正確喔！ </span>
+            <button id="OrderDemo" class="alert-light">demo</button>
+
+        </div>
+        <div class="container" style="font-size:20px;width:350px;height:60.8%;float:left;margin-left:5%;border:solid 1pt #AAAAAA;background-color:white;border-radius:10px;box-shadow: 0 20px 50px rgba(0,0,0,.1);">
+            <div style="width:300px;height:240px;margin-top:3%;margin-left:6%">
+                <div class="form-group">
+                    <label class="orderchecklabel" for="cardExpiry"><span class="hidden-xs">姓名</span></label>
+                    <input id="invoicename" style="border:solid 1pt #AAAAAA" type="tel" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="orderchecklabel" for="cardExpiry"><span class="hidden-xs">聯絡用信箱</span></label>
+                    <input id="invoiceemail" style="border:solid 1pt #AAAAAA" type="tel" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label class="orderchecklabel" for="cardExpiry"><span class="hidden-xs">發票類型</span></label>
+                    <br />
+                    <select calss="form-control orderchecklabel" type="tel" style="width:300px;height:15%;border-radius:5px">
+                        <option class="orderchecklabel" value="">電子發票</option>
+                        <option class="orderchecklabel" value="">捐贈發票</option>
+                        <option class="orderchecklabel" value="">統編發票</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="orderchecklabel" for="cardExpiry"><span class="hidden-xs">發票類型</span></label>
+                    <br />
+                    <select style="width:500px;height:15%;border-radius:5px">
+                        <option value="">中獎後寄信通知</option>
+                        <option value="">自然人憑證條碼</option>
+                        <option value="">手機條碼</option>
+                    </select>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div class="card" style="position:fixed">
+    <div class="list-group list-group-accent">
+        <div class="list-group-item list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small mt-1">
+            <h5>購課清單 <i class="fas fa-search-dollar"></i></h5>
+        </div>
+        <div class="list-group-item list-group-item-accent-warning list-group-item-divider">
+            <div class="my-2">
+                <strong>訂單明細</strong>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-accent-info">
+            <div class="mt-5">
+                <strong>總計</strong>
+                <span id="ClassCount" style="font-size:25px">@Model.Count()</span>
+                <strong>堂課程</strong>
+            </div>
+            <div class="my-3">
+                <strong>總金額</strong>
+                <span style="font-size:20px"> NT$</span>
+                <span>
+                    <strong id="total" style="font-size:25px">0</strong>
+                </span>
+            </div>
+        </div>
+        <div class="list-group-item list-group-item-accent-danger list-group-item-divider">
+            @Html.ActionLink("確認送出", "OrderCheckout", "Order", null, new { @class = "btn btn-success t", id = "checkoutBTN" })
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+    $('#OrderDemo').click(function () {
+        $('#cardnumber').val("4224 2442 5890 7563");
+        $('#cardbacknumber').val("02 / 23");
+        $('#threenumber').val("777");
+        $('#cardname').val("金城武");
+        $('#invoicename').val("金城武");
+        $('#invoiceemail').val("JinChengwu@@gmail.com")
+    });
+
+
+
+
+    var $form = $('#payment-form');
+    $form.find('.subscribe').on('click', payWithStripe);
+
+    /* If you're using Stripe for payments */
+    function payWithStripe(e) {
+        e.preventDefault();
+
+        /* Abort if invalid form data */
+        if (!validator.form()) {
+            return;
+        }
+
+        /* Visual feedback */
+        $form.find('.subscribe').html('Validating <i class="fa fa-spinner fa-pulse"></i>').prop('disabled', true);
+
+        var PublishableKey = 'pk_test_6pRNASCoBOKtIshFeQd4XMUh'; // Replace with your API publishable key
+        Stripe.setPublishableKey(PublishableKey);
+
+        /* Create token */
+        var expiry = $form.find('[name=cardExpiry]').payment('cardExpiryVal');
+        var ccData = {
+            number: $form.find('[name=cardNumber]').val().replace(/\s/g, ''),
+            cvc: $form.find('[name=cardCVC]').val(),
+            exp_month: expiry.month,
+            exp_year: expiry.year
+        };
+
+        Stripe.card.createToken(ccData, function stripeResponseHandler(status, response) {
+            if (response.error) {
+                /* Visual feedback */
+                $form.find('.subscribe').html('Try again').prop('disabled', false);
+                /* Show Stripe errors on the form */
+                $form.find('.payment-errors').text(response.error.message);
+                $form.find('.payment-errors').closest('.row').show();
+            } else {
+                /* Visual feedback */
+                $form.find('.subscribe').html('Processing <i class="fa fa-spinner fa-pulse"></i>');
+                /* Hide Stripe errors on the form */
+                $form.find('.payment-errors').closest('.row').hide();
+                $form.find('.payment-errors').text("");
+                // response contains id and card, which contains additional card details
+                console.log(response.id);
+                console.log(response.card);
+                var token = response.id;
+                // AJAX - you would send 'token' to your server here.
+                $.post('/account/stripe_card_token', {
+                    token: token
+                })
+                    // Assign handlers immediately after making the request,
+                    .done(function (data, textStatus, jqXHR) {
+                        $form.find('.subscribe').html('Payment successful <i class="fa fa-check"></i>');
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        $form.find('.subscribe').html('There was a problem').removeClass('success').addClass('error');
+                        /* Show Stripe errors on the form */
+                        $form.find('.payment-errors').text('Try refreshing the page and trying again.');
+                        $form.find('.payment-errors').closest('.row').show();
+                    });
+            }
+        });
+    }
+    /* Fancy restrictive input formatting via jQuery.payment library*/
+    $('input[name=cardNumber]').payment('formatCardNumber');
+    $('input[name=cardCVC]').payment('formatCardCVC');
+    $('input[name=cardExpiry').payment('formatCardExpiry');
+
+    /* Form validation using Stripe client-side validation helpers */
+    jQuery.validator.addMethod("cardNumber", function (value, element) {
+        return this.optional(element) || Stripe.card.validateCardNumber(value);
+    }, "請使用有效的信用卡號碼.");
+
+    jQuery.validator.addMethod("cardExpiry", function (value, element) {
+        /* Parsing month/year uses jQuery.payment library */
+        value = $.payment.cardExpiryVal(value);
+        return this.optional(element) || Stripe.card.validateExpiry(value.month, value.year);
+    }, "日期失效.");
+
+    jQuery.validator.addMethod("cardCVC", function (value, element) {
+        return this.optional(element) || Stripe.card.validateCVC(value);
+    }, "無效的 CVC.");
+
+    validator = $form.validate({
+        rules: {
+            cardNumber: {
+                required: true,
+                cardNumber: true,
+
+            },
+            cardExpiry: {
+                required: true,
+                cardExpiry: true
+            },
+            cardCVC: {
+                required: true,
+                cardCVC: true
+            }
+        },
+        messages: {
+            cardNumber: {
+                required: "請務必選擇，勿留空白"
+            },
+            cardExpiry: {
+                required: "請務必選擇，勿留空白"
+            },
+            cardCVC: {
+                required: "請務必選擇，勿留空白"
+            },
+        },
+
+
+        highlight: function (element) {
+            $(element).closest('.form-control').removeClass('success').addClass('error');
+        },
+        unhighlight: function (element) {
+            $(element).closest('.form-control').removeClass('error').addClass('success');
+        },
+        errorPlacement: function (error, element) {
+            $(element).closest('.form-group').append(error);
+        }
+    });
+
+    paymentFormReady = function () {
+        if ($form.find('[name=cardNumber]').hasClass("success") &&
+            $form.find('[name=cardExpiry]').hasClass("success") &&
+            $form.find('[name=cardCVC]').val().length > 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    $form.find('.subscribe').prop('disabled', true);
+    var readyInterval = setInterval(function () {
+        if (paymentFormReady()) {
+            $form.find('.subscribe').prop('disabled', false);
+            clearInterval(readyInterval);
+        }
+    }, 250);
+</script>

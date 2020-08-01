@@ -1,0 +1,80 @@
+﻿@model WebClass.Models.M_Report
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>M_Report</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SolDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SolDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportUserID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportUserID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.M_MessageBoard.MessageBoardContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.M_MessageBoard.MessageBoardContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.M_ReMessageBoard.ReMessageBoardContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.M_ReMessageBoard.ReMessageBoardContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.M_SolutionType.SolutionTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.M_SolutionType.SolutionTypeName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

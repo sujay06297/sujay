@@ -1,0 +1,60 @@
+﻿@model WebClass.Models.C_Class
+@{
+    ViewBag.Title = "EditClassCheck";
+}
+
+@*button用*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+<style>
+    /*按鈕1.*/
+
+
+    .btnPassed {
+        margin-bottom: 50px;
+        font-size: 30px;
+    }
+</style>
+
+
+
+
+<div class="container" style="margin-top:5%">
+    <h1>課程審查</h1>
+
+    <form action="~/User/EditClassCheckPassed" method="post">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="container">
+                    <h2 class="badge-warning">課程內容</h2>
+                </div>
+
+                @*==========課程內容物頭==========*@
+                <div class="">
+                    <div class="section">
+
+                        <h1 class="course-title text-center">@Html.DisplayFor(c => c.ClassName)</h1>
+                        <img class="thumb" title="bytesImage" src="@Url.Action("GetImage", "Class", new {id=Model.ClassID })" />
+
+                        <hr />
+                        <div class="">
+                            @Html.Raw(Model.ClassContent)
+                        </div>
+                    </div>
+
+                    @*<button type="button" class="btn btn-outline-primary"><i class="far fa-thumbs-up"></i>審核通過</button>
+                        <button type="button" class="btn btn-outline-danger"><i class="fas fa-book-dead"></i>審核不過</button>*@
+
+                    <a type="submit" href='@Url.Action("EditClassCheckPassed","User")/@Model.ClassID?CreateTypeID=2&PermissionID=3' class="btn btn-outline-primary btnPassed" id="btnPassed" name="examinePassed" value="2"><i class="far fa-thumbs-up"></i>審核通過</a>
+                    <a type="submit" href='@Url.Action("EditClassCheckFailed","User")/@Model.ClassID?CreateTypeID=5' class="btn btn-outline-danger btnPassed" id="btnFailed" name="examineFailed" value="5"><i class="fas fa-book-dead"></i>審核不過</a>
+                    <input type="hidden" id="ClassNotice" value="@Model.ClassID" />
+                </div>
+                @*==========課程內容物尾==========*@
+            </div>
+        </div>
+    </form>
+</div>
+
